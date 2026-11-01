@@ -125,6 +125,55 @@ test('pernyataan yang bukan objek tidak melempar', () => {
   expect(pilihNilaiResmi(sampah)).toBeNull();
 });
 
+test('skor pecahan diabaikan — kolomnya integer', () => {
+  const pecahan: Pernyataan = {
+    statement: {
+      verb: { display: { 'en-US': 'answered' } },
+      result: { score: { raw: 1.5, max: 3 } },
+    },
+    received_at: T(1),
+  };
+  expect(pilihNilaiResmi([pecahan])).toBeNull();
+});
+
+test('skor di luar jangkauan integer 32-bit diabaikan', () => {
+  const kebesaran: Pernyataan = {
+    statement: {
+      verb: { display: { 'en-US': 'answered' } },
+      result: { score: { raw: 1e12, max: 1e12 } },
+    },
+    received_at: T(1),
+  };
+  expect(pilihNilaiResmi([kebesaran])).toBeNull();
+});
+
+test('skor negatif diabaikan', () => {
+  const negatif: Pernyataan = {
+    statement: {
+      verb: { display: { 'en-US': 'answered' } },
+      result: { score: { raw: -5, max: 10 } },
+    },
+    received_at: T(1),
+  };
+  expect(pilihNilaiResmi([negatif])).toBeNull();
+});
+
+test('pernyataan berskor sah tetap dipakai walau ada yang di luar jangkauan', () => {
+  const rusak: Pernyataan = {
+    statement: {
+      verb: { display: { 'en-US': 'answered' } },
+      result: { score: { raw: 1e12, max: 1e12 } },
+    },
+    received_at: T(1),
+  };
+  const sah = pernyataan(2, { raw: 4, max: 9 });
+  expect(pilihNilaiResmi([rusak, sah])).toEqual({
+    score_raw: 4,
+    score_max: 9,
+    finished_at: T(2),
+  });
+});
+
 test('masukan tidak diubah urutannya oleh pemilih', () => {
   const ps = [pernyataan(5, { raw: 1, max: 5 }), pernyataan(1, { raw: 2, max: 9 })];
   const salinan = [...ps];

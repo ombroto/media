@@ -36,6 +36,15 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Pernyataan xAPI tidak ada.' }, { status: 400 });
   }
 
-  const hasil = await catatPernyataan(peserta.id, statement);
-  return Response.json({ ok: true, berskor: hasil.berskor });
+  try {
+    const hasil = await catatPernyataan(peserta.id, statement);
+    return Response.json({ ok: true, berskor: hasil.berskor });
+  } catch {
+    // Jangan biarkan galat basis data lolos sebagai 500 tanpa bentuk: pemutar
+    // akan mengulang kiriman lewat sendBeacon dan tidak ada yang tahu sebabnya.
+    return Response.json(
+      { ok: false, error: 'Nilai gagal dicatat.' },
+      { status: 500 },
+    );
+  }
 }

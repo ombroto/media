@@ -31,15 +31,29 @@ export default async function HalamanHasil() {
   }
 
   if (!peserta.finished_at) {
+    // Konten yang belum pernah terbukti memberi nilai ('unknown') mungkin
+    // memang tak berskor. Kalau peserta hanya dipantulkan ke /play, ia
+    // terjebak bolak-balik tanpa penutup, jadi di sini selalu ada jalan keluar.
+    const mungkinTakBerskor = peserta.scoring !== 'scored';
+
     return (
       <main className="mx-auto max-w-sm space-y-4 py-10 text-center">
-        <h1 className="text-xl font-semibold">Belum selesai</h1>
+        <h1 className="text-xl font-semibold">Belum ada nilai</h1>
         <p className="text-sm opacity-80">
-          Nilai Anda belum masuk. Selesaikan dulu kontennya.
+          {mungkinTakBerskor
+            ? `Terima kasih, ${peserta.alias}. Kegiatan ini belum mengirimkan nilai apa pun — bisa jadi memang tidak memberi nilai.`
+            : 'Nilai Anda belum masuk. Selesaikan dulu kontennya.'}
         </p>
-        <Link href="/play" className="inline-block text-sm underline">
-          lanjutkan
-        </Link>
+        <p className="space-x-4">
+          <Link href="/play" className="text-sm underline">
+            kembali mengerjakan
+          </Link>
+          {mungkinTakBerskor ? (
+            <Link href="/" className="text-sm underline opacity-70">
+              sudah cukup, keluar
+            </Link>
+          ) : null}
+        </p>
       </main>
     );
   }

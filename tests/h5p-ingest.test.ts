@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import JSZip from 'jszip';
 import { beforeAll, describe, expect, test } from 'vitest';
@@ -152,6 +152,36 @@ describe('penelanan nyata terhadap konten pemilik', () => {
       expect(h.pesan).toMatch(/99\.0/);
     },
     300000,
+  );
+
+  test(
+    'cache hub yang rusak dibuang, bukan dipercaya selamanya',
+    async () => {
+      // Tiru unduhan yang terputus: berkas cache ada dan ukurannya > 0, tapi
+      // isinya bukan zip yang sah. Tanpa pembuangan, percobaan berikutnya akan
+      // mempercayainya terus dan satu-satunya jalan keluar adalah menghapus
+      // berkas itu dari terminal — melanggar anti-tujuan §2.
+      const cache = join(DIR_UJI, 'hub-cache', 'H5P.TidakAdaDiGudang.h5p');
+      writeFileSync(cache, Buffer.from('potongan unduhan yang gagal'));
+      expect(existsSync(cache)).toBe(true);
+
+      const buf = await paketTiruan({
+        'h5p.json': JSON.stringify({
+          title: 'Butuh Pustaka Antah Berantah',
+          mainLibrary: 'H5P.TidakAdaDiGudang',
+          preloadedDependencies: [
+            { machineName: 'H5P.TidakAdaDiGudang', majorVersion: '1', minorVersion: '0' },
+          ],
+        }),
+        'content/content.json': '{}',
+      });
+
+      const h = await telanPaket(buf, 'antah.h5p', pengguna);
+
+      expect(h.ok).toBe(false);
+      expect(existsSync(cache)).toBe(false);
+    },
+    900000,
   );
 
   test(

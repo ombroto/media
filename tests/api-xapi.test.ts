@@ -200,6 +200,35 @@ test('konten yang sudah ditandai unscored tidak ikut berubah kalau pernyataannya
   expect((await ambilKonten(konten.id))?.scoring).toBe('unscored');
 });
 
+test('dua pernyataan serentak: completed yang menentukan, bukan yang kalah lomba', async () => {
+  const { token } = await siapkan();
+
+  // Dikirim bersamaan seperti yang dilakukan konten beruntun (mis. Interactive
+  // Video). Tanpa transaksi, pembaca yang lebih awal bisa menimpa hasil yang
+  // lebih benar.
+  await Promise.all([
+    POST(permintaan(token, { statement: statement({ verb: 'answered', raw: 3, max: 10 }) })),
+    POST(permintaan(token, { statement: statement({ verb: 'completed', raw: 9, max: 10 }) })),
+  ]);
+
+  const p = await pesertaDariToken(token);
+  expect(p?.score_raw).toBe(9);
+});
+
+test('skor di luar jangkauan integer tidak merusak nilai berikutnya', async () => {
+  const { token } = await siapkan();
+
+  const rusak = await POST(permintaan(token, { statement: statement({ raw: 1e12, max: 1e12 }) }));
+  expect(rusak.status).toBe(200);
+
+  const sah = await POST(permintaan(token, { statement: statement({ raw: 7, max: 10 }) }));
+  expect(sah.status).toBe(200);
+
+  const p = await pesertaDariToken(token);
+  expect(p?.score_raw).toBe(7);
+  expect(p?.score_max).toBe(10);
+});
+
 test('pernyataan tanpa kunci statement dibalas 400', async () => {
   const { token } = await siapkan();
   const res = await POST(permintaan(token, { bukan: 'statement' }));

@@ -2,39 +2,28 @@
 
 import { revalidatePath } from 'next/cache';
 import { penyelenggaraSekarang } from '@/lib/auth-cookie';
-import { telanDanSimpan } from '@/lib/unggah-konten';
+import { ambilKonten, tandaiScoring } from '@/lib/repo/contents';
 
-export type KeadaanUnggah = {
-  galat?: string;
-  berhasil?: string;
-  pustakaTerpasang?: string[];
-  pustakaKurang?: string[];
-};
-
-export async function aksiUnggahKonten(
-  _sebelumnya: KeadaanUnggah,
-  data: FormData,
-): Promise<KeadaanUnggah> {
+/**
+ * Menandai sebuah konten sebagai tidak memberi nilai.
+ *
+ * Daftar tipe tak berskor yang dibawa kode tidak mungkin lengkap — H5P punya
+ * puluhan tipe. Tanpa jalan ini, konten tak berskor yang tidak ada di daftar
+ * akan selamanya berstatus "unknown": pesertanya tercatat "belum selesai"
+ * padahal sudah selesai, dan sesinya tetap menjanjikan papan peringkat yang
+ * tidak akan pernah terisi.
+ */
+export async function aksiTandaiTanpaSkor(data: FormData): Promise<void> {
   const guru = await penyelenggaraSekarang();
-  if (!guru) return { galat: 'Sesi Anda sudah berakhir. Masuk lagi untuk mengunggah.' };
+  if (!guru) return;
 
-  const berkas = data.get('berkas');
-  if (!(berkas instanceof File) || berkas.size === 0) {
-    return { galat: 'Pilih dulu berkas .h5p yang mau diunggah.' };
-  }
+  const kontenId = Number(data.get('kontenId'));
+  if (!Number.isInteger(kontenId)) return;
 
-  const hasil = await telanDanSimpan(guru.id, berkas);
+  const konten = await ambilKonten(kontenId);
+  if (!konten || konten.owner_id !== guru.id) return;
 
-  if (!hasil.ok) {
-    return { galat: hasil.pesan, pustakaKurang: hasil.pustakaKurang };
-  }
-
+  await tandaiScoring(kontenId, 'unscored');
   revalidatePath('/admin/konten');
-
-  return {
-    berhasil: hasil.hanyaPustaka
-      ? 'Berkas ini berisi pustaka saja, bukan konten — pustakanya sudah dipasang.'
-      : `"${hasil.judul}" siap dipakai.`,
-    pustakaTerpasang: hasil.pustakaTerpasang,
-  };
+  revalidatePath('/admin');
 }

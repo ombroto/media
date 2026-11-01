@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { periksaPin } from '@/lib/repo/participants';
+import { akhirEfektif } from '@/lib/session-status';
 import { ambilKonten } from '@/lib/repo/contents';
 import { pesertaSekarang } from '@/lib/peserta-cookie';
 import { waktuPanjang } from '@/lib/waktu';
@@ -27,7 +28,9 @@ export default async function HalamanMasukSesi({
                 hasil.sesi ? waktuPanjang(hasil.sesi.opens_at) : 'nanti'
               }.`
             : `Sesi ini sudah ditutup${
-                hasil.sesi ? ` pada ${waktuPanjang(hasil.sesi.closes_at)}` : ''
+                // akhirEfektif, bukan closes_at: sesi yang ditutup lebih cepat
+                // akan menyebut tanggal di masa depan kalau memakai jadwalnya.
+                hasil.sesi ? ` pada ${waktuPanjang(akhirEfektif(hasil.sesi))}` : ''
               }.`;
 
     return (

@@ -8,6 +8,13 @@ export type NilaiResmi = {
 
 type Layak = NilaiResmi & { completed: boolean };
 
+/** Batas `integer` Postgres; skor di luar ini tidak bisa disimpan. */
+const INT4_MAKS = 2_147_483_647;
+
+function bilanganBulatSah(n: number): boolean {
+  return Number.isInteger(n) && n >= 0 && n <= INT4_MAKS;
+}
+
 function objek(v: unknown): Record<string, unknown> | null {
   return typeof v === 'object' && v !== null ? (v as Record<string, unknown>) : null;
 }
@@ -37,7 +44,13 @@ function layak(p: Pernyataan): Layak | null {
   const raw = score.raw;
   const max = score.max;
   if (typeof raw !== 'number' || typeof max !== 'number') return null;
-  if (!Number.isFinite(raw) || !Number.isFinite(max)) return null;
+
+  // Kolomnya `integer` di Postgres. Nilai pecahan atau di luar jangkauan int4
+  // akan ditolak basis data, dan karena pernyataannya sudah tersimpan lebih
+  // dulu, nilai peserta itu akan gagal dihitung untuk SELAMANYA — setiap
+  // pernyataan berikutnya ikut jatuh pada baris yang sama. Jadi disaring di
+  // sini, bukan diserahkan ke basis data.
+  if (!bilanganBulatSah(raw) || !bilanganBulatSah(max)) return null;
 
   return {
     score_raw: raw,

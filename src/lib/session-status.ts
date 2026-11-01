@@ -11,7 +11,7 @@ export type HasilBolehMasuk =
   | { ok: false; alasan: 'belum_dibuka' | 'sudah_ditutup' };
 
 /** Saat sesi benar-benar berakhir: yang lebih awal antara jadwal dan penutupan dini. */
-function akhirEfektif(s: SesiWaktu): Date {
+export function akhirEfektif(s: SesiWaktu): Date {
   if (s.closed_early_at && s.closed_early_at < s.closes_at) {
     return s.closed_early_at;
   }

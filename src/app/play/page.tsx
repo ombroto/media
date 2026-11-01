@@ -38,11 +38,17 @@ export default async function HalamanMengerjakan() {
         />
       )}
 
-      {peserta.scoring === 'unscored' ? (
-        // Konten tak berskor tidak pernah mengirim tanda selesai, jadi peserta
-        // perlu jalan keluar. Tautan ini hanya berpindah halaman — ia tidak
-        // mencatat apa pun, sesuai §5.5 yang melarang tombol "saya selesai".
-        <p className="text-sm">
+      {peserta.scoring !== 'scored' ? (
+        // Konten tak berskor tidak pernah mengirim tanda selesai, dan konten
+        // yang belum pernah terbukti berskor ('unknown') bisa jadi sama. Tanpa
+        // jalan keluar, pesertanya terjebak. Tautan ini hanya berpindah halaman
+        // — ia tidak mencatat apa pun, sesuai §5.5 yang melarang tombol "saya
+        // selesai".
+        <p className="space-y-1 text-sm">
+          <span className="block opacity-70">
+            Kalau kegiatan ini memang tidak memberi nilai, nilainya tidak akan
+            muncul.
+          </span>
           <Link href="/hasil" className="underline">
             sudah selesai, tutup kegiatan ini
           </Link>

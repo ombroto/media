@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { penyelenggaraSekarang } from '@/lib/auth-cookie';
 import { daftarKonten } from '@/lib/repo/contents';
 import FormUnggah from './FormUnggah';
+import { aksiTandaiTanpaSkor } from './actions';
 
 export const metadata = { title: 'Pustaka konten — Sesi H5P' };
 
@@ -64,6 +65,14 @@ export default async function HalamanPustakaKonten() {
                 >
                   pratinjau
                 </Link>
+                {k.scoring === 'unknown' ? (
+                  <form action={aksiTandaiTanpaSkor}>
+                    <input type="hidden" name="kontenId" value={k.id} />
+                    <button type="submit" className="text-xs underline opacity-60">
+                      tandai tanpa skor
+                    </button>
+                  </form>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -73,6 +82,14 @@ export default async function HalamanPustakaKonten() {
           <p className="text-xs opacity-70">
             Konten bertanda &quot;tanpa peringkat&quot; memang tidak pernah mengirim
             nilai, jadi sesinya hanya menampilkan siapa yang sudah membuka.
+          </p>
+        ) : null}
+
+        {daftar.some((k) => k.scoring === 'unknown') ? (
+          <p className="text-xs opacity-70">
+            Kalau sebuah konten ternyata tidak memberi nilai sama sekali, tandai
+            lewat &quot;tandai tanpa skor&quot; — pesertanya akan mendapat halaman
+            penutup, bukan tercatat belum selesai.
           </p>
         ) : null}
       </section>

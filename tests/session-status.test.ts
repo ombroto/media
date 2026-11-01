@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { bolehMasuk, statusSesi, type SesiWaktu } from '@/lib/session-status';
+import { akhirEfektif, bolehMasuk, statusSesi, type SesiWaktu } from '@/lib/session-status';
 
 const buka = new Date('2026-11-01T08:00:00Z');
 const tutup = new Date('2026-11-05T23:59:00Z');
@@ -62,4 +62,18 @@ test('bolehMasuk menolak sesi yang ditutup lebih cepat dengan alasan sudah_ditut
     ok: false,
     alasan: 'sudah_ditutup',
   });
+});
+
+test('akhirEfektif memberi closes_at kalau tidak ditutup lebih cepat', () => {
+  expect(akhirEfektif(sesi())).toEqual(tutup);
+});
+
+test('akhirEfektif memberi closed_early_at kalau itu lebih awal', () => {
+  const ditutup = new Date('2026-11-02T09:00:00Z');
+  expect(akhirEfektif(sesi(ditutup))).toEqual(ditutup);
+});
+
+test('akhirEfektif mengabaikan closed_early_at yang lebih lambat dari closes_at', () => {
+  const ditutup = new Date('2026-11-09T00:00:00Z');
+  expect(akhirEfektif(sesi(ditutup))).toEqual(tutup);
 });

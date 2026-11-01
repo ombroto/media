@@ -1,5 +1,5 @@
 import { createWriteStream } from 'node:fs';
-import { mkdir, readFile, stat } from 'node:fs/promises';
+import { mkdir, readFile, rename, rm, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { Readable } from 'node:stream';
@@ -135,6 +135,7 @@ async function ambilDariHub(machineName: string): Promise<Buffer | null> {
   const dir = dirHubCache();
   await mkdir(dir, { recursive: true });
   const berkas = join(dir, `${machineName}.h5p`);
+  const sementara = `${berkas}.tmp`;
 
   const adaCache = await stat(berkas).then(
     (s) => s.isFile() && s.size > 0,
@@ -145,8 +146,24 @@ async function ambilDariHub(machineName: string): Promise<Buffer | null> {
   const res = await fetch(`${ENDPOINT_HUB}${encodeURIComponent(machineName)}`);
   if (!res.ok || !res.body) return null;
 
-  await pipeline(Readable.fromWeb(res.body as never), createWriteStream(berkas));
+  // Diunduh ke berkas sementara lalu diganti nama. Kalau ditulis langsung ke
+  // jalur cache, unduhan yang terputus meninggalkan berkas terpotong yang
+  // ukurannya > 0, dan percobaan berikutnya akan mempercayainya selamanya —
+  // tanpa jalan keluar selain menghapusnya dari terminal.
+  try {
+    await pipeline(Readable.fromWeb(res.body as never), createWriteStream(sementara));
+    await rename(sementara, berkas);
+  } catch (e) {
+    await rm(sementara, { force: true });
+    throw e;
+  }
+
   return readFile(berkas);
+}
+
+/** Membuang paket hub yang ternyata tidak bisa dipasang, supaya bisa diunduh ulang. */
+async function buangCacheHub(machineName: string): Promise<void> {
+  await rm(join(dirHubCache(), `${machineName}.h5p`), { force: true });
 }
 
 /**
@@ -225,6 +242,10 @@ export async function telanPaket(
       }
       return true;
     } catch {
+      // Paket yang gagal dipasang kemungkinan rusak (mis. unduhan lama yang
+      // terpotong). Dibuang supaya percobaan berikutnya mengunduh ulang, bukan
+      // mengulang kegagalan yang sama selamanya.
+      await buangCacheHub(machineName);
       return false;
     }
   }
@@ -236,6 +257,10 @@ export async function telanPaket(
    * sendiri memuat 90 pustaka, termasuk hampir semua sub-pustaka yang umum.
    */
   async function pasangDariHub(machineName: string): Promise<boolean> {
+    if (await pasangBundel(machineName)) return true;
+
+    // Percobaan pertama boleh gagal karena cache-nya rusak; pasangBundel sudah
+    // membuangnya, jadi percobaan kedua mengunduh ulang dari gudang.
     if (await pasangBundel(machineName)) return true;
 
     for (const payung of PAYUNG_PUSTAKA) {
