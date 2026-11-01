@@ -6,3 +6,4 @@ data/
 .superpowers/
 .worktrees/
 *.log
+public/h5p-core/
