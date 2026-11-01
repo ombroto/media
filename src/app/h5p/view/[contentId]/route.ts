@@ -9,7 +9,7 @@ import { periksaAksesH5P } from '@/lib/h5p-access';
  * ke dalam pohon React berarti menulis ulang renderer itu. Iframe juga menjaga
  * jQuery dan variabel global H5P tetap di luar halaman Next.
  */
-function halamanPemutar(model: IPlayerModel, tokenPeserta: string | null): string {
+function halamanPemutar(model: IPlayerModel): string {
   const gaya = model.styles
     .map((s) => `<link rel="stylesheet" href="${s}">`)
     .join('\n    ');
@@ -25,7 +25,6 @@ function halamanPemutar(model: IPlayerModel, tokenPeserta: string | null): strin
   ${skrip}
   <script>
     window.H5PIntegration = ${JSON.stringify(model.integration)};
-    window.TOKEN_PESERTA = ${JSON.stringify(tokenPeserta)};
   </script>
   <style>
     html, body { margin: 0; padding: 0; background: transparent; }
@@ -52,10 +51,8 @@ export async function GET(
     });
   }
 
-  const tokenPeserta = akses.jenis === 'peserta' ? req.headers.get('x-token-peserta') : null;
-
   const { player } = getH5P();
-  player.setRenderer((model) => halamanPemutar(model, tokenPeserta));
+  player.setRenderer((model) => halamanPemutar(model));
 
   try {
     const html = (await player.render(

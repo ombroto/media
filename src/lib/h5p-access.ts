@@ -1,4 +1,7 @@
-import { penyelenggaraDariRequest } from '@/lib/auth';
+import { cookieDariRequest, penyelenggaraDariRequest } from '@/lib/auth';
+import { NAMA_COOKIE_PESERTA } from '@/lib/nama-cookie';
+import { pesertaDariToken } from '@/lib/participant';
+import { bolehMasuk } from '@/lib/session-status';
 
 export type AksesH5P =
   | { jenis: 'penyelenggara'; teacherId: number }
@@ -12,9 +15,6 @@ export type AksesH5P =
  * pemanggil wajib membalas 403. Kalau berkas konten boleh diambil anonim, siapa
  * pun yang menebak nomor konten bisa membaca kuisnya sebelum sesinya dibuka,
  * dan PIN kehilangan artinya.
- *
- * Cabang peserta ditambahkan di Tugas 8; tanda tangan fungsi ini tidak berubah
- * supaya rute tidak perlu disentuh lagi.
  */
 export async function periksaAksesH5P(
   req: Request,
@@ -23,6 +23,19 @@ export async function periksaAksesH5P(
   const guru = await penyelenggaraDariRequest(req);
   if (guru) return { jenis: 'penyelenggara', teacherId: guru.id };
 
-  void h5pContentId;
-  return null;
+  const peserta = await pesertaDariToken(
+    cookieDariRequest(req, NAMA_COOKIE_PESERTA),
+  );
+  if (!peserta) return null;
+
+  // Hanya konten milik sesinya sendiri, dan hanya selama jendelanya terbuka.
+  if (peserta.h5p_content_id !== h5pContentId) return null;
+  if (!bolehMasuk(peserta, new Date()).ok) return null;
+
+  return {
+    jenis: 'peserta',
+    participantId: peserta.id,
+    sessionId: peserta.session_id,
+    h5pContentId: peserta.h5p_content_id,
+  };
 }
