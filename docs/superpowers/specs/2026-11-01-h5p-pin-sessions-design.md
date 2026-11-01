@@ -437,3 +437,37 @@ lebih dulu:
   dan apa yang gagal.
 - Penanganan berkas media besar di dalam `.h5p` (contoh 8,5 MB) dan batas unggah
   Next.js.
+
+---
+
+## Perubahan setelah pemakaian pertama (2026-11-01)
+
+Pemilik mencoba sesinya dan melaporkan: setelah konten selesai dan tombol
+**Check** bawaan H5P ditekan, **tidak terjadi apa-apa**. Pemeriksaan basis data
+menunjukkan nilainya sebenarnya tercatat dengan benar (dua peserta, 2/5 dan
+4/5, lengkap dengan waktu selesai) — yang hilang adalah **tanda di layar**:
+tidak ada konfirmasi dan tidak ada perpindahan halaman.
+
+Atas keputusan pemilik, penyelesaian konten diubah:
+
+1. **Tombol bawaan H5P ditutup** — Check, Show solution, dan Retry. Dimatikan
+   lewat parameter konten (`behaviour.enableCheckButton`, `enableRetry`,
+   `enableSolutionsButton`) dan ditutup CSS untuk tipe konten yang tidak
+   menyediakan saklarnya, seperti Crossword.
+2. **Satu tombol "Kirim jawaban"** di bawah konten menutup percobaan. Nilainya
+   tetap berasal dari H5P sendiri (`getXAPIData()`, cadangan
+   `getScore()`/`getMaxScore()`), dikirim sebagai pernyataan berverb
+   `completed`.
+3. **Setelah terkirim, peserta langsung diarahkan ke papan peringkat.**
+
+Konsekuensi yang disengaja: **penangkap xAPI pasif dihapus.** Sebelumnya setiap
+pernyataan yang dipancarkan H5P dikirim diam-diam, dan dengan tombol Check
+hilang, satu nilai parsial yang terlanjur masuk akan menutup percobaan lebih
+awal — peserta akan terlempar ke papan peringkat di tengah pekerjaannya. Kini
+satu-satunya yang menutup percobaan adalah tombol Kirim. Arsip `xapi_events`
+tetap ada, hanya isinya menjadi satu pernyataan per percobaan.
+
+Ini menggantikan §4.2 dan bagian §5.6 yang mengandaikan pernyataan datang
+beruntun selama pengerjaan. Pemilih nilai resmi tidak berubah dan tetap
+menangani beberapa pernyataan, karena konten yang memancarkan `completed`
+sendiri masih mungkin ada.

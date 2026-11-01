@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import PemutarH5P from '@/components/PemutarH5P';
 import { pesertaSekarang } from '@/lib/peserta-cookie';
@@ -34,32 +33,17 @@ export default async function HalamanMengerjakan() {
             tapi kontennya tidak bisa dibuka lagi.
           </p>
         ) : (
-          <PemutarH5P
-            h5pContentId={peserta.h5p_content_id}
-            judul={peserta.content_title}
-          />
-        )}
-
-        {peserta.scoring !== 'scored' ? (
-          // Konten tak berskor tidak pernah mengirim tanda selesai, dan konten
-          // yang belum pernah terbukti berskor ('unknown') bisa jadi sama. Tanpa
-          // jalan keluar, pesertanya terjebak. Tautan ini hanya berpindah halaman
-          // — ia tidak mencatat apa pun, sesuai §5.5 yang melarang tombol "saya
-          // selesai".
-          <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-            <span className="text-abu">
-              Kalau kegiatan ini memang tidak memberi nilai, nilainya tidak akan
-              muncul.
-            </span>
-            <Link href="/hasil" className="tombol tombol-garis tombol-kecil">
-              Sudah selesai
-            </Link>
-          </div>
-        ) : (
-          <p className="text-sm text-abu">
-            Nilainya tercatat sendiri begitu kontennya selesai — tidak ada tombol
-            kirim.
-          </p>
+          <>
+            <PemutarH5P
+              h5pContentId={peserta.h5p_content_id}
+              judul={peserta.content_title}
+            />
+            <p className="text-sm text-abu">
+              Kerjakan sampai selesai, lalu tekan <strong>Kirim jawaban</strong> di
+              bawah kontennya. Setelah itu Anda langsung diarahkan ke papan
+              peringkat.
+            </p>
+          </>
         )}
       </div>
     </main>

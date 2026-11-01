@@ -29,7 +29,7 @@ export default async function HalamanUjiPutar({
           </Link>
         </header>
 
-        <PemutarH5P h5pContentId={contentId} />
+        <PemutarH5P h5pContentId={contentId} keSetelahSelesai={null} />
 
         <p className="text-sm text-abu">
           Halaman ini hanya untuk memeriksa konten. Skor yang terkirim dari sini
