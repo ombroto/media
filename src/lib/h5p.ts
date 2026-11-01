@@ -1,4 +1,3 @@
-import { mkdirSync } from 'node:fs';
 import { isAbsolute, join } from 'node:path';
 import {
   H5PAjaxEndpoint,
@@ -36,9 +35,21 @@ declare global {
   var __mesinH5P: MesinH5P | undefined;
 }
 
+/**
+ * Direktori artefak H5P. Harus datang dari lingkungan dan harus absolut:
+ * menyusunnya dari process.cwd() di dalam modul ini membuat penelusuran statis
+ * Turbopack menganggap seluruh proyek bisa dibaca, sehingga ribuan berkas ikut
+ * terbundel. Pengubahan relatif→absolut dikerjakan di luar bundel, oleh
+ * next.config.ts dan scripts/, bukan di sini.
+ */
 function dirData(): string {
-  const dari = process.env.H5P_DATA_DIR ?? './data/h5p';
-  return isAbsolute(dari) ? dari : join(process.cwd(), dari);
+  const dari = process.env.H5P_DATA_DIR_ABS;
+  if (!dari || !isAbsolute(dari)) {
+    throw new Error(
+      'H5P_DATA_DIR_ABS belum berisi jalur absolut. Jalankan lewat npm (next.config.ts yang mengisinya) atau atur sendiri.',
+    );
+  }
+  return dari;
 }
 
 function buatMesin(): MesinH5P {
@@ -49,7 +60,7 @@ function buatMesin(): MesinH5P {
     temp: join(akar, 'temp'),
     hubCache: join(akar, 'hub-cache'),
   };
-  for (const d of Object.values(dir)) mkdirSync(d, { recursive: true });
+  // Direktorinya dibuat di luar bundel — lihat next.config.ts dan tests/setup.ts.
 
   const config = new H5PConfig(undefined, {
     // Bawaan h5p-server sudah pas: /h5p/core, /h5p/libraries, /h5p/ajax, dan

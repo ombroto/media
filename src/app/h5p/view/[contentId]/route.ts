@@ -20,7 +20,7 @@ function halamanPemutar(model: IPlayerModel): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${model.integration.contents?.[`cid-${model.contentId}`]?.title ?? 'Konten'}</title>
+  <title>Konten interaktif</title>
   ${gaya}
   ${skrip}
   <script>
