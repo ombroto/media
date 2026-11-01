@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { penyelenggaraSekarang } from '@/lib/auth-cookie';
 import { ambilKonten } from '@/lib/repo/contents';
+import { hapusPeserta } from '@/lib/repo/participants';
 import {
   ambilSesi,
   buatSesi,
@@ -11,6 +12,7 @@ import {
   tutupSekarang,
   ubahSesi,
 } from '@/lib/repo/sessions';
+import { query } from '@/lib/db';
 
 export type KeadaanSesi = { galat?: string };
 
@@ -120,4 +122,22 @@ export async function aksiHapusSesi(data: FormData): Promise<void> {
   await hapusSesi(sesiId);
   revalidatePath('/admin');
   redirect('/admin');
+}
+
+export async function aksiHapusPeserta(data: FormData): Promise<void> {
+  const sesiId = Number(data.get('sesiId'));
+  const pesertaId = Number(data.get('pesertaId'));
+  const punya = Number.isInteger(sesiId) ? await milikSaya(sesiId) : null;
+  if (!punya || !Number.isInteger(pesertaId)) return;
+
+  // Peserta hanya boleh dihapus dari sesi penyelenggara itu sendiri.
+  const [baris] = await query<{ session_id: number }>(
+    'select session_id from participants where id = $1',
+    [pesertaId],
+  );
+  if (!baris || baris.session_id !== sesiId) return;
+
+  await hapusPeserta(pesertaId);
+  revalidatePath(`/admin/sesi/${sesiId}`);
+  revalidatePath('/admin');
 }
