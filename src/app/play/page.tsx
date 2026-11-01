@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import PemutarH5P from '@/components/PemutarH5P';
 import { pesertaSekarang } from '@/lib/peserta-cookie';
@@ -37,10 +38,21 @@ export default async function HalamanMengerjakan() {
         />
       )}
 
-      <p className="text-sm opacity-70">
-        Nilainya tercatat sendiri begitu kontennya selesai — tidak ada tombol
-        kirim.
-      </p>
+      {peserta.scoring === 'unscored' ? (
+        // Konten tak berskor tidak pernah mengirim tanda selesai, jadi peserta
+        // perlu jalan keluar. Tautan ini hanya berpindah halaman — ia tidak
+        // mencatat apa pun, sesuai §5.5 yang melarang tombol "saya selesai".
+        <p className="text-sm">
+          <Link href="/hasil" className="underline">
+            sudah selesai, tutup kegiatan ini
+          </Link>
+        </p>
+      ) : (
+        <p className="text-sm opacity-70">
+          Nilainya tercatat sendiri begitu kontennya selesai — tidak ada tombol
+          kirim.
+        </p>
+      )}
     </main>
   );
 }
