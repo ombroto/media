@@ -7,3 +7,5 @@ data/
 .worktrees/
 *.log
 public/h5p-core/
+
+next-env.d.ts
