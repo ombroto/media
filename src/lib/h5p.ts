@@ -52,8 +52,9 @@ function buatMesin(): MesinH5P {
   for (const d of Object.values(dir)) mkdirSync(d, { recursive: true });
 
   const config = new H5PConfig(undefined, {
+    // Bawaan h5p-server sudah pas: /h5p/core, /h5p/libraries, /h5p/ajax, dan
+    // berkas konten di /h5p/content/<id>. Semuanya dilayani route handler kita.
     baseUrl: '/h5p',
-    coreUrl: '/h5p-core',
     // h5p-server 10.0.4 mengaku core API 1.27, sementara pustaka yang dilayani
     // gudang H5P hari ini menuntut 1.28 dan akan ditolak validatornya. Aset
     // inti yang kita sajikan diambil dari plugin mod_hvp yang memang 1.28
