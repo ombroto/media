@@ -89,3 +89,22 @@ Yang dilakukan situs ini: token peserta yang disimpan sebagai hash, satu baris
 nilai per peserta, nama yang tidak bisa dipakai dua kali dalam satu sesi,
 durasi yang selalu dihitung server, dan arsip pernyataan xAPI mentah untuk
 audit. Cukup untuk pemakaian kelas; bukan untuk ujian berisiko tinggi.
+
+## Tentang peringatan `npm audit`
+
+`npm audit` melaporkan empat temuan "high", semuanya lewat
+`@lumieducation/h5p-server`. Sudah diperiksa satu per satu:
+
+| Paket | Jalur | Penilaian |
+|---|---|---|
+| `image-size` | `h5p-server` → `saveContentFile()` | **Tidak terjangkau.** Fungsi itu milik editor H5P, dan situs ini tidak memasang editornya sama sekali. Versi amannya (2.x) juga menghapus ekspor bawaan yang dipanggil h5p-server, jadi memaksanya justru merusak. |
+| `underscore` | `h5p-server` → `jsonpath` → `underscore` | **Tidak terjangkau dan tidak bisa diperbaiki.** `jsonpath` hanya tercantum di package.json h5p-server; tidak ada satu pun berkasnya yang mengimpornya. Tidak ada versi `underscore` yang sudah diperbaiki. |
+
+Keduanya adalah serangan penghabisan sumber daya (DoS) yang hanya bisa dipicu
+lewat berkas yang diunggah — dan satu-satunya yang bisa mengunggah di sini
+adalah penyelenggara sendiri, di mesinnya sendiri.
+
+`npm audit fix` aman dijalankan: ia hanya menaikkan `yauzl` ke 3.4.0, dan
+seluruh pengujian serta build tetap lulus setelahnya. Jangan jalankan
+`npm audit fix --force` — itu akan menaikkan `image-size` ke 2.x dan merusak
+h5p-server.
