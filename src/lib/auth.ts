@@ -1,17 +1,13 @@
-import {
-  createHmac,
-  randomBytes,
-  scrypt as scryptCb,
-  timingSafeEqual,
-} from 'node:crypto';
-import { promisify } from 'node:util';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 import { query } from '@/lib/db';
+// Format hash dipegang satu modul JavaScript biasa, supaya skrip seed yang
+// dijalankan Node langsung memakai format yang sama persis.
+import { hashKataSandi, periksaKataSandi } from '@/lib/password.mjs';
 
-const scrypt = promisify(scryptCb);
+export { hashKataSandi, periksaKataSandi };
 
 export const NAMA_COOKIE_GURU = 'sesi_guru';
 const UMUR_SESI_MS = 14 * 24 * 60 * 60 * 1000;
-const SCRYPT = { N: 16384, r: 8, p: 1, panjang: 32 } as const;
 
 function rahasia(): string {
   const r = process.env.SESSION_SECRET;
@@ -19,47 +15,6 @@ function rahasia(): string {
     throw new Error('SESSION_SECRET belum diatur atau terlalu pendek — lihat .env.example');
   }
   return r;
-}
-
-export async function hashKataSandi(kataSandi: string): Promise<string> {
-  const salt = randomBytes(16);
-  const kunci = (await scrypt(kataSandi, salt, SCRYPT.panjang, {
-    N: SCRYPT.N,
-    r: SCRYPT.r,
-    p: SCRYPT.p,
-  })) as Buffer;
-
-  return [
-    'scrypt',
-    SCRYPT.N,
-    SCRYPT.r,
-    SCRYPT.p,
-    salt.toString('base64'),
-    kunci.toString('base64'),
-  ].join('$');
-}
-
-export async function periksaKataSandi(kataSandi: string, hash: string): Promise<boolean> {
-  const bagian = hash.split('$');
-  if (bagian.length !== 6 || bagian[0] !== 'scrypt') return false;
-
-  const N = Number(bagian[1]);
-  const r = Number(bagian[2]);
-  const p = Number(bagian[3]);
-  if (!Number.isInteger(N) || !Number.isInteger(r) || !Number.isInteger(p)) return false;
-
-  const salt = Buffer.from(bagian[4], 'base64');
-  const diharap = Buffer.from(bagian[5], 'base64');
-  if (salt.length === 0 || diharap.length === 0) return false;
-
-  let kunci: Buffer;
-  try {
-    kunci = (await scrypt(kataSandi, salt, diharap.length, { N, r, p })) as Buffer;
-  } catch {
-    return false;
-  }
-
-  return kunci.length === diharap.length && timingSafeEqual(kunci, diharap);
 }
 
 function tandaTangan(muatan: string): string {

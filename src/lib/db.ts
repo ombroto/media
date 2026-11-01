@@ -1,4 +1,10 @@
-import { Pool } from 'pg';
+import pg, { Pool } from 'pg';
+
+// node-postgres membaca int8/bigserial sebagai string demi ketelitian 64-bit.
+// Id di aplikasi ini tidak akan mendekati 2^53, dan id bertipe string akan
+// membuat seluruh perbandingan id (peringkat, pemilik, sesi) salah tanpa suara,
+// jadi dibaca sebagai angka.
+pg.types.setTypeParser(20, (v) => Number(v));
 
 const url = process.env.DATABASE_URL;
 if (!url) {
