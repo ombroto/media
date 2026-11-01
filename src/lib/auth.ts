@@ -1,12 +1,13 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { query } from '@/lib/db';
+import { NAMA_COOKIE_GURU } from '@/lib/nama-cookie';
 // Format hash dipegang satu modul JavaScript biasa, supaya skrip seed yang
 // dijalankan Node langsung memakai format yang sama persis.
 import { hashKataSandi, periksaKataSandi } from '@/lib/password.mjs';
 
 export { hashKataSandi, periksaKataSandi };
+export { NAMA_COOKIE_GURU };
 
-export const NAMA_COOKIE_GURU = 'sesi_guru';
 const UMUR_SESI_MS = 14 * 24 * 60 * 60 * 1000;
 
 function rahasia(): string {

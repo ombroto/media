@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { NAMA_COOKIE_GURU } from '@/lib/auth';
+import { NAMA_COOKIE_GURU } from '@/lib/nama-cookie';
 
 /**
  * Menjaga /admin/*. Di sini hanya keberadaan cookie yang diperiksa — tanda
