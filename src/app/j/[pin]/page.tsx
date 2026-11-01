@@ -34,12 +34,15 @@ export default async function HalamanMasukSesi({
               }.`;
 
     return (
-      <main className="mx-auto max-w-sm space-y-5 py-10 text-center">
-        <h1 className="text-xl font-semibold">Belum bisa masuk</h1>
-        <p className="text-sm opacity-80">{pesan}</p>
-        <Link href="/" className="inline-block text-sm underline">
-          coba PIN lain
-        </Link>
+      <main className="pita">
+        <div className="wadah-sempit text-center">
+          <span className="kerlip">Belum bisa masuk</span>
+          <h1 className="judul-seksi mt-3">PIN ini tidak bisa dipakai</h1>
+          <p className="mt-3 text-sm leading-relaxed text-abu">{pesan}</p>
+          <Link href="/" className="tombol tombol-utama mt-6">
+            Coba PIN lain
+          </Link>
+        </div>
       </main>
     );
   }
@@ -53,27 +56,32 @@ export default async function HalamanMasukSesi({
   const konten = await ambilKonten(hasil.sesi.content_id);
 
   return (
-    <main className="mx-auto max-w-sm space-y-6 py-8">
-      <header className="space-y-1">
-        <h1 className="text-xl font-semibold">{hasil.sesi.title}</h1>
-        <p className="text-sm opacity-70">
-          {konten?.title ?? 'Konten interaktif'} · ditutup{' '}
-          {waktuPanjang(hasil.sesi.closes_at)}
-        </p>
-      </header>
+    <main className="pita">
+      <div className="wadah-sempit space-y-6">
+        <header className="space-y-2">
+          <span className="kerlip">Sesi terbuka</span>
+          <h1 className="text-2xl">{hasil.sesi.title}</h1>
+          <p className="text-sm text-abu">
+            {konten?.title ?? 'Konten interaktif'} · ditutup{' '}
+            {waktuPanjang(hasil.sesi.closes_at)}
+          </p>
+        </header>
 
-      <FormNama pin={hasil.sesi.pin} />
+        <div className="kartu p-6">
+          <FormNama pin={hasil.sesi.pin} />
+        </div>
 
-      <div className="space-y-2 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
-        <p className="font-semibold">Kerjakan sekali jalan</p>
-        <p>
-          Kalau halaman ini ditutup atau dimuat ulang di tengah jalan, kontennya
-          mulai dari awal lagi sementara waktu pengerjaan Anda terus berjalan.
-        </p>
-        <p className="opacity-80">
-          Nama hanya bisa dipakai sekali di sesi ini. Kalau ingin mengerjakan
-          lagi, gunakan nama lain.
-        </p>
+        <div className="pesan pesan-ingat space-y-2">
+          <p className="font-semibold">Kerjakan sekali jalan</p>
+          <p>
+            Kalau halaman ini ditutup atau dimuat ulang di tengah jalan, kontennya
+            mulai dari awal lagi sementara waktu pengerjaan Anda terus berjalan.
+          </p>
+          <p className="opacity-80">
+            Nama hanya bisa dipakai sekali di sesi ini. Kalau ingin mengerjakan
+            lagi, gunakan nama lain.
+          </p>
+        </div>
       </div>
     </main>
   );

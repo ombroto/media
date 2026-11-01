@@ -13,30 +13,36 @@ export default function FormLogin({ lanjut }: { lanjut: string }) {
     <form action={kirim} className="space-y-4">
       <input type="hidden" name="lanjut" value={lanjut} />
 
-      <label className="block space-y-1">
-        <span className="text-sm">Email</span>
+      <div>
+        <label htmlFor="email" className="label-isian">
+          Email
+        </label>
         <input
+          id="email"
           name="email"
           type="email"
           autoComplete="username"
           required
-          className="w-full rounded-lg border border-black/20 px-3 py-2 dark:border-white/25"
+          className="isian"
         />
-      </label>
+      </div>
 
-      <label className="block space-y-1">
-        <span className="text-sm">Kata sandi</span>
+      <div>
+        <label htmlFor="kataSandi" className="label-isian">
+          Kata sandi
+        </label>
         <input
+          id="kataSandi"
           name="kataSandi"
           type="password"
           autoComplete="current-password"
           required
-          className="w-full rounded-lg border border-black/20 px-3 py-2 dark:border-white/25"
+          className="isian"
         />
-      </label>
+      </div>
 
       {keadaan.galat ? (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+        <p role="alert" className="pesan pesan-galat">
           {keadaan.galat}
         </p>
       ) : null}
@@ -44,7 +50,7 @@ export default function FormLogin({ lanjut }: { lanjut: string }) {
       <button
         type="submit"
         disabled={sedangKirim}
-        className="w-full rounded-lg bg-black px-3 py-2 font-semibold text-white disabled:opacity-60 dark:bg-white dark:text-black"
+        className="tombol tombol-utama w-full py-3"
       >
         {sedangKirim ? 'Memeriksa…' : 'Masuk'}
       </button>

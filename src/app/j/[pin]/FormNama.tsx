@@ -13,20 +13,23 @@ export default function FormNama({ pin }: { pin: string }) {
     <form action={kirim} className="space-y-4">
       <input type="hidden" name="pin" value={pin} />
 
-      <label className="block space-y-1">
-        <span className="text-sm">Nama kamu</span>
+      <div>
+        <label htmlFor="nama" className="label-isian">
+          Nama kamu
+        </label>
         <input
+          id="nama"
           name="nama"
           required
           maxLength={40}
           autoComplete="off"
           autoFocus
-          className="w-full rounded-xl border border-black/20 px-4 py-3 text-lg dark:border-white/25"
+          className="isian text-lg"
         />
-      </label>
+      </div>
 
       {keadaan.galat ? (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+        <p role="alert" className="pesan pesan-galat">
           {keadaan.galat}
         </p>
       ) : null}
@@ -34,7 +37,7 @@ export default function FormNama({ pin }: { pin: string }) {
       <button
         type="submit"
         disabled={sedangKirim}
-        className="w-full rounded-xl bg-black px-4 py-3 text-lg font-semibold text-white disabled:opacity-60 dark:bg-white dark:text-black"
+        className="tombol tombol-utama w-full py-3 text-base"
       >
         {sedangKirim ? 'Menyiapkan…' : 'Mulai'}
       </button>

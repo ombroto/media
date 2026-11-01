@@ -28,37 +28,44 @@ export default async function HalamanUbahSesi({
   const peserta = await jumlahPeserta(sesi.id);
 
   return (
-    <main className="space-y-8">
-      <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-xl font-semibold">Ubah sesi</h1>
-        <Link href={`/admin/sesi/${sesi.id}`} className="text-sm underline opacity-70">
-          pantau sesi
-        </Link>
-      </header>
+    <main>
+      <section className="pita-gelap py-10">
+        <div className="wadah flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="kerlip">Ubah sesi</span>
+            <h1 className="mt-2 text-3xl text-white">{sesi.title}</h1>
+          </div>
+          <Link href={`/admin/sesi/${sesi.id}`} className="tombol tombol-terang tombol-kecil">
+            Pantau sesi
+          </Link>
+        </div>
+      </section>
 
-      <FormSesi
-        aksi={aksiUbahSesi}
-        sesiId={sesi.id}
-        judulKonten={konten?.title ?? '(konten tidak ditemukan)'}
-        adaPeserta={peserta > 0}
-        labelTombol="Simpan perubahan"
-        awal={{
-          judul: sesi.title,
-          pin: sesi.pin,
-          dibuka: untukInput(sesi.opens_at),
-          ditutup: untukInput(sesi.closes_at),
-        }}
-      />
+      <section className="pita">
+        <div className="wadah max-w-2xl space-y-8">
+          <FormSesi
+            aksi={aksiUbahSesi}
+            sesiId={sesi.id}
+            judulKonten={konten?.title ?? '(konten tidak ditemukan)'}
+            adaPeserta={peserta > 0}
+            labelTombol="Simpan perubahan"
+            awal={{
+              judul: sesi.title,
+              pin: sesi.pin,
+              dibuka: untukInput(sesi.opens_at),
+              ditutup: untukInput(sesi.closes_at),
+            }}
+          />
 
-      <section id="hapus" className="space-y-3 border-t border-black/15 pt-6 dark:border-white/20">
-        <h2 className="text-sm font-semibold uppercase tracking-wide opacity-60">
-          Hapus sesi
-        </h2>
-        <p className="text-sm opacity-70">
-          Seluruh nilai {peserta === 0 ? 'peserta' : `${peserta} peserta`} di sesi ini
-          akan hilang. Kontennya tetap ada di pustaka.
-        </p>
-        <FormHapus sesiId={sesi.id} judul={sesi.title} />
+          <div id="hapus" className="space-y-3 border-t border-garis pt-6">
+            <span className="kerlip">Hapus sesi</span>
+            <p className="text-sm text-abu">
+              Seluruh nilai {peserta === 0 ? 'peserta' : `${peserta} peserta`} di sesi
+              ini akan hilang. Kontennya tetap ada di pustaka.
+            </p>
+            <FormHapus sesiId={sesi.id} judul={sesi.title} />
+          </div>
+        </div>
       </section>
     </main>
   );

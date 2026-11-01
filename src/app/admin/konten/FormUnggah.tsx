@@ -21,6 +21,7 @@ export default function FormUnggah() {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const [sedangKirim, setSedangKirim] = useState(false);
+  const [namaBerkas, setNamaBerkas] = useState<string | null>(null);
   const [hasil, setHasil] = useState<Hasil | null>(null);
 
   async function kirim(e: React.FormEvent<HTMLFormElement>) {
@@ -36,6 +37,7 @@ export default function FormUnggah() {
       setHasil(badan);
       if (badan.ok) {
         formRef.current?.reset();
+        setNamaBerkas(null);
         router.refresh();
       }
     } catch {
@@ -49,57 +51,62 @@ export default function FormUnggah() {
   }
 
   return (
-    <form ref={formRef} onSubmit={kirim} className="space-y-3">
-      <label className="block cursor-pointer rounded-xl border-2 border-dashed border-black/25 p-6 text-center dark:border-white/25">
-        <input type="file" name="berkas" accept=".h5p" className="sr-only" required />
-        <span className="block font-medium">Pilih berkas .h5p</span>
-        <span className="mt-1 block text-sm opacity-70">
-          Pustaka tipe kontennya diunduh otomatis kalau belum ada di server.
+    <form ref={formRef} onSubmit={kirim} className="kartu space-y-4 p-6">
+      <label className="block cursor-pointer rounded border-2 border-dashed border-garis bg-krem px-6 py-8 text-center transition-colors hover:border-oranye">
+        <input
+          type="file"
+          name="berkas"
+          accept=".h5p"
+          className="sr-only"
+          required
+          onChange={(e) => setNamaBerkas(e.target.files?.[0]?.name ?? null)}
+        />
+        <span className="block font-judul text-lg">
+          {namaBerkas ?? 'Pilih berkas .h5p'}
+        </span>
+        <span className="mt-1 block text-sm text-abu">
+          Maksimal 64 MB. Pustaka yang belum ada diunduh otomatis dari gudang H5P.
         </span>
       </label>
 
-      <button
-        type="submit"
-        disabled={sedangKirim}
-        className="rounded-lg bg-black px-4 py-2 font-semibold text-white disabled:opacity-60 dark:bg-white dark:text-black"
-      >
+      <button type="submit" disabled={sedangKirim} className="tombol tombol-utama">
         {sedangKirim ? 'Memproses…' : 'Unggah'}
       </button>
 
       {sedangKirim ? (
-        <p className="text-sm opacity-70">
+        <p className="text-sm text-abu">
           Memeriksa paket dan memasang pustaka yang belum ada. Pemasangan pertama
           bisa memakan beberapa menit karena pustakanya diunduh dari gudang H5P.
         </p>
       ) : null}
 
       {hasil && !hasil.ok ? (
-        <div role="alert" className="space-y-1 text-sm">
-          <p className="text-red-700 dark:text-red-400">
-            {hasil.pesan ?? 'Unggahan gagal.'}
-          </p>
+        <div role="alert" className="pesan pesan-galat space-y-1">
+          <p>{hasil.pesan ?? 'Unggahan gagal.'}</p>
           {hasil.pustakaKurang?.length ? (
-            <p className="opacity-70">Pustaka yang kurang: {hasil.pustakaKurang.join(', ')}</p>
+            <p className="opacity-80">
+              Pustaka yang kurang: {hasil.pustakaKurang.join(', ')}
+            </p>
           ) : null}
         </div>
       ) : null}
 
       {hasil?.ok ? (
-        <div className="space-y-1 text-sm">
-          <p className="text-green-700 dark:text-green-400">
+        <div className="pesan pesan-baik space-y-1">
+          <p>
             {hasil.hanyaPustaka
               ? 'Berkas ini berisi pustaka saja, bukan konten — pustakanya sudah dipasang.'
               : `"${hasil.judul}" siap dipakai.`}
           </p>
           {hasil.pustakaTerpasang?.length ? (
-            <details className="opacity-70">
+            <details className="opacity-80">
               <summary className="cursor-pointer">
                 {hasil.pustakaTerpasang.length} pustaka dipasang dari gudang H5P
               </summary>
               <p className="mt-1 break-words">{hasil.pustakaTerpasang.join(', ')}</p>
             </details>
           ) : (
-            <p className="opacity-70">Semua pustaka yang dibutuhkan sudah ada di server.</p>
+            <p className="opacity-80">Semua pustaka yang dibutuhkan sudah ada di server.</p>
           )}
         </div>
       ) : null}

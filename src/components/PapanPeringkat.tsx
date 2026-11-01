@@ -13,36 +13,39 @@ export default function PapanPeringkat({
   sorotiId?: number;
 }) {
   if (baris.length === 0) {
-    return (
-      <p className="text-sm opacity-70">
-        Belum ada yang menyelesaikan sesi ini.
-      </p>
-    );
+    return <p className="text-sm text-abu">Belum ada yang menyelesaikan sesi ini.</p>;
   }
 
   return (
-    <ol className="divide-y divide-black/10 dark:divide-white/15">
+    <ol className="kartu divide-y divide-garis overflow-hidden">
       {baris.map((b) => {
         const saya = b.id === sorotiId;
         return (
           <li
             key={b.id}
-            className={
-              saya
-                ? 'flex items-baseline gap-3 rounded-lg px-2 py-2 font-semibold outline outline-1 outline-black/40 dark:outline-white/40'
-                : 'flex items-baseline gap-3 px-2 py-2'
-            }
+            className={`flex items-center gap-3 px-4 py-3 ${
+              saya ? 'bg-oranye/8 font-semibold' : ''
+            }`}
           >
-            <span className="w-7 shrink-0 tabular-nums opacity-60">{b.peringkat}</span>
+            <span
+              className={`grid h-7 w-7 shrink-0 place-items-center rounded font-judul text-sm ${
+                b.peringkat <= 3 ? 'bg-oranye text-white' : 'bg-krem-2 text-abu'
+              }`}
+            >
+              {b.peringkat}
+            </span>
+
             <span className="min-w-0 flex-1 truncate">
               {b.alias}
-              {saya ? <span className="ml-2 text-xs opacity-70">(kamu)</span> : null}
+              {saya ? <span className="ml-2 text-xs text-oranye">(kamu)</span> : null}
             </span>
-            <span className="shrink-0 tabular-nums">
+
+            <span className="shrink-0 font-judul tabular-nums">
               {b.score_raw}
-              <span className="opacity-60">/{b.score_max}</span>
+              <span className="text-abu">/{b.score_max}</span>
             </span>
-            <span className="w-14 shrink-0 text-right font-mono text-sm tabular-nums opacity-70">
+
+            <span className="w-14 shrink-0 text-right text-sm tabular-nums text-abu">
               {durasiSingkat(b.durasi_ms)}
             </span>
           </li>

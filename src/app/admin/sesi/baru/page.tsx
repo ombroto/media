@@ -28,33 +28,42 @@ export default async function HalamanSesiBaru({
   const seminggu = new Date(sekarang.getTime() + 7 * 24 * 3600 * 1000);
 
   return (
-    <main className="space-y-6">
-      <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-xl font-semibold">Sesi baru</h1>
-        <Link href="/admin" className="text-sm underline opacity-70">
-          daftar sesi
-        </Link>
-      </header>
+    <main>
+      <section className="pita-gelap py-10">
+        <div className="wadah flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="kerlip">Sesi baru</span>
+            <h1 className="mt-2 text-3xl text-white">{konten.title}</h1>
+          </div>
+          <Link href="/admin" className="tombol tombol-terang tombol-kecil">
+            Daftar sesi
+          </Link>
+        </div>
+      </section>
 
-      {konten.scoring === 'unscored' ? (
-        <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
-          Tipe konten ini tidak pernah mengirim nilai, jadi sesinya tidak punya
-          papan peringkat. Yang terlihat hanya siapa saja yang sudah membuka.
-        </p>
-      ) : null}
+      <section className="pita">
+        <div className="wadah max-w-2xl space-y-5">
+          {konten.scoring === 'unscored' ? (
+            <p className="pesan pesan-ingat">
+              Tipe konten ini tidak pernah mengirim nilai, jadi sesinya tidak punya
+              papan peringkat. Yang terlihat hanya siapa saja yang sudah membuka.
+            </p>
+          ) : null}
 
-      <FormSesi
-        aksi={aksiBuatSesi}
-        kontenId={konten.id}
-        judulKonten={konten.title}
-        labelTombol="Simpan & tampilkan PIN"
-        awal={{
-          judul: konten.title,
-          pin: await buatPinBaru(),
-          dibuka: untukInput(sekarang),
-          ditutup: untukInput(seminggu),
-        }}
-      />
+          <FormSesi
+            aksi={aksiBuatSesi}
+            kontenId={konten.id}
+            judulKonten={konten.title}
+            labelTombol="Simpan & tampilkan PIN"
+            awal={{
+              judul: konten.title,
+              pin: await buatPinBaru(),
+              dibuka: untukInput(sekarang),
+              ditutup: untukInput(seminggu),
+            }}
+          />
+        </div>
+      </section>
     </main>
   );
 }

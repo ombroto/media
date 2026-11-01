@@ -30,97 +30,137 @@ export default async function HalamanDaftarSesi({
   const daftar =
     saringan === 'semua' ? semua : semua.filter((s) => s.status === (saringan as StatusSesi));
 
+  const berjalan = semua.filter((s) => s.status === 'berjalan').length;
+  const peserta = semua.reduce((n, s) => n + s.jumlah_ikut, 0);
+  const selesai = semua.reduce((n, s) => n + s.jumlah_selesai, 0);
+
   return (
-    <main className="space-y-6">
-      <header className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="text-xl font-semibold">Sesi</h1>
-        <div className="flex items-center gap-3 text-sm">
-          <Link href="/admin/konten" className="underline opacity-70">
-            pustaka konten
-          </Link>
-          <form action={aksiKeluar}>
-            <button type="submit" className="underline opacity-70">
-              keluar
-            </button>
-          </form>
+    <main>
+      <section className="pita-gelap py-10">
+        <div className="wadah">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <span className="kerlip">Penyelenggara</span>
+              <h1 className="mt-2 text-3xl text-white">Sesi</h1>
+              <p className="mt-1 text-sm text-white/60">Masuk sebagai {guru.name}.</p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Link href="/admin/konten" className="tombol tombol-terang tombol-kecil">
+                Pustaka konten
+              </Link>
+              <form action={aksiKeluar}>
+                <button
+                  type="submit"
+                  className="text-xs uppercase tracking-[0.12em] text-white/60 hover:text-white"
+                >
+                  keluar
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <dl className="mt-8 grid grid-cols-2 gap-4 border-t border-white/10 pt-6 sm:grid-cols-4">
+            {[
+              ['Sesi', semua.length],
+              ['Berjalan', berjalan],
+              ['Peserta', peserta],
+              ['Selesai', selesai],
+            ].map(([label, nilai]) => (
+              <div key={String(label)}>
+                <dd className="angka-besar">{nilai}</dd>
+                <dt className="mt-1 text-xs uppercase tracking-[0.12em] text-white/50">
+                  {label}
+                </dt>
+              </div>
+            ))}
+          </dl>
         </div>
-      </header>
+      </section>
 
-      <nav className="flex flex-wrap items-center gap-4 border-b border-black/15 pb-2 text-sm dark:border-white/20">
-        {SARINGAN.map((s) => (
-          <Link
-            key={s.kunci}
-            href={s.kunci === 'semua' ? '/admin' : `/admin?status=${s.kunci}`}
-            className={
-              saringan === s.kunci
-                ? 'border-b-2 border-current pb-1 font-semibold'
-                : 'opacity-70'
-            }
-          >
-            {s.label}
-          </Link>
-        ))}
-        <Link
-          href="/admin/konten"
-          className="ml-auto rounded-lg border border-black/25 px-3 py-1.5 text-xs font-semibold dark:border-white/30"
-        >
-          + Sesi baru
-        </Link>
-      </nav>
+      <section className="pita">
+        <div className="wadah space-y-5">
+          <nav className="flex flex-wrap items-center gap-4 border-b border-garis pb-3 text-sm">
+            {SARINGAN.map((s) => (
+              <Link
+                key={s.kunci}
+                href={s.kunci === 'semua' ? '/admin' : `/admin?status=${s.kunci}`}
+                className={
+                  saringan === s.kunci
+                    ? 'border-b-2 border-oranye pb-2 font-semibold text-oranye'
+                    : 'pb-2 text-abu hover:text-tinta'
+                }
+              >
+                {s.label}
+              </Link>
+            ))}
+            <Link href="/admin/konten" className="tombol tombol-utama tombol-kecil ml-auto">
+              Sesi baru
+            </Link>
+          </nav>
 
-      {daftar.length === 0 ? (
-        <p className="text-sm opacity-70">
-          {semua.length === 0
-            ? 'Belum ada sesi. Mulai dari pustaka konten, lalu "Buat sesi".'
-            : 'Tidak ada sesi dengan status itu.'}
-        </p>
-      ) : (
-        <ul className="divide-y divide-black/10 dark:divide-white/15">
-          {daftar.map((s) => (
-            <li key={s.id} className="space-y-2 py-4">
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <p className="font-medium">{s.title}</p>
-                <span className="rounded-full border border-black/25 px-2 py-0.5 text-[10px] uppercase dark:border-white/30">
-                  {s.status}
-                </span>
-                {s.scoring === 'unscored' ? (
-                  <span className="text-[10px] uppercase opacity-60">tanpa peringkat</span>
-                ) : null}
-              </div>
+          {daftar.length === 0 ? (
+            <p className="text-sm text-abu">
+              {semua.length === 0
+                ? 'Belum ada sesi. Mulai dari pustaka konten, lalu "Buat sesi".'
+                : 'Tidak ada sesi dengan status itu.'}
+            </p>
+          ) : (
+            <ul className="grid gap-4 md:grid-cols-2">
+              {daftar.map((s) => (
+                <li key={s.id} className="kartu flex flex-col gap-3 p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h2 className="text-lg leading-snug">{s.title}</h2>
+                    <span
+                      className={`lencana ${
+                        s.status === 'berjalan' ? 'lencana-berjalan' : 'lencana-selesai'
+                      }`}
+                    >
+                      {s.status}
+                    </span>
+                  </div>
 
-              <p className="text-xs opacity-70">
-                {s.judul_konten} · PIN{' '}
-                <span className="font-mono tracking-widest">{s.pin}</span> ·{' '}
-                {jendela(s.opens_at, s.closes_at)} ·{' '}
-                {s.jumlah_ikut === 0
-                  ? 'belum ada peserta'
-                  : `${s.jumlah_ikut} ikut, ${s.jumlah_selesai} selesai`}
-              </p>
+                  <p className="font-judul text-2xl tracking-[0.2em] text-oranye">
+                    {s.pin}
+                  </p>
 
-              <div className="flex flex-wrap gap-2 text-xs">
-                <Link
-                  href={`/admin/sesi/${s.id}`}
-                  className="rounded-lg border border-black/25 px-3 py-1.5 font-semibold dark:border-white/30"
-                >
-                  Pantau
-                </Link>
-                <Link
-                  href={`/admin/sesi/${s.id}/ubah`}
-                  className="rounded-lg border border-black/25 px-3 py-1.5 font-semibold dark:border-white/30"
-                >
-                  Ubah
-                </Link>
-                <Link
-                  href={`/admin/sesi/${s.id}/ubah#hapus`}
-                  className="rounded-lg border border-black/25 px-3 py-1.5 font-semibold dark:border-white/30"
-                >
-                  Hapus
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+                  <p className="text-xs text-abu">
+                    {s.judul_konten} · {jendela(s.opens_at, s.closes_at)}
+                    {s.scoring === 'unscored' ? ' · tanpa peringkat' : ''}
+                  </p>
+
+                  <p className="text-xs text-abu">
+                    {s.jumlah_ikut === 0
+                      ? 'belum ada peserta'
+                      : `${s.jumlah_ikut} ikut, ${s.jumlah_selesai} selesai`}
+                  </p>
+
+                  <div className="mt-auto flex flex-wrap gap-2 pt-2">
+                    <Link
+                      href={`/admin/sesi/${s.id}`}
+                      className="tombol tombol-utama tombol-kecil"
+                    >
+                      Pantau
+                    </Link>
+                    <Link
+                      href={`/admin/sesi/${s.id}/ubah`}
+                      className="tombol tombol-garis tombol-kecil"
+                    >
+                      Ubah
+                    </Link>
+                    <Link
+                      href={`/admin/sesi/${s.id}/ubah#hapus`}
+                      className="tombol tombol-garis tombol-kecil"
+                    >
+                      Hapus
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
     </main>
   );
 }

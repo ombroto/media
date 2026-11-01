@@ -29,19 +29,16 @@ export default function FormPin() {
         autoFocus
         aria-label="PIN"
         placeholder="______"
-        className="w-full rounded-xl border border-black/20 px-4 py-4 text-center font-mono text-3xl tracking-[0.35em] dark:border-white/25"
+        className="isian text-center font-judul text-3xl tracking-[0.35em]"
       />
 
       {galat ? (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+        <p role="alert" className="pesan pesan-galat">
           {galat}
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        className="w-full rounded-xl bg-black px-4 py-3 text-lg font-semibold text-white dark:bg-white dark:text-black"
-      >
+      <button type="submit" className="tombol tombol-utama w-full py-3 text-base">
         Lanjut
       </button>
     </form>

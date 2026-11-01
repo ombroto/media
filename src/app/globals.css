@@ -1,19 +1,285 @@
 @import "tailwindcss";
 
-:root {
-  --latar: #ffffff;
-  --tinta: #18181b;
+/*
+ * Bahasa visual mengikuti rujukan: pita krem dan arang yang bergantian, satu
+ * aksen oranye, judul tebal rapat, kartu putih bergaris tipis.
+ *
+ * Paletnya tetap — tidak mengikuti mode gelap sistem. Rujukannya memakai
+ * gelap sebagai elemen rancangan (pita statistik, footer), bukan sebagai tema
+ * alternatif; membalik warnanya otomatis akan merusak maksud itu.
+ */
+@theme {
+  --color-tinta: #1b1a18;
+  --color-gelap: #262523;
+  --color-gelap-2: #322f2c;
+  --color-krem: #f4f1ec;
+  --color-krem-2: #ebe6de;
+  --color-oranye: #ef5a27;
+  --color-oranye-tua: #d4491b;
+  --color-abu: #6f6a63;
+  --color-garis: #e3ded6;
+
+  --font-judul: var(--font-judul-stack);
+  --font-sans: var(--font-badan-stack);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --latar: #0b0b0d;
-    --tinta: #f4f4f5;
-  }
+:root {
+  --font-judul-stack: var(--font-archivo), "Segoe UI", system-ui, sans-serif;
+  --font-badan-stack: var(--font-inter), "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
 }
 
 body {
-  background: var(--latar);
-  color: var(--tinta);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--color-krem);
+  color: var(--color-tinta);
+  font-family: var(--font-badan-stack);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-judul-stack);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+@layer components {
+  /* ── Pita seksi ──────────────────────────────────────────────────────── */
+
+  .pita {
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .pita-gelap {
+    background: var(--color-gelap);
+    color: #fff;
+  }
+
+  .pita-putih {
+    background: #fff;
+  }
+
+  .wadah {
+    width: 100%;
+    max-width: 68rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .wadah-sempit {
+    width: 100%;
+    max-width: 34rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  /* ── Label kecil di atas judul ───────────────────────────────────────── */
+
+  .kerlip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-oranye);
+  }
+
+  .kerlip::before,
+  .kerlip::after {
+    content: "";
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .judul-seksi {
+    font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+  }
+
+  /* ── Tombol ──────────────────────────────────────────────────────────── */
+
+  .tombol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.25rem;
+    border-radius: 0.3rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .tombol::after {
+    content: "↗";
+    font-size: 0.85em;
+  }
+
+  .tombol-polos::after {
+    content: none;
+  }
+
+  .tombol-utama {
+    background: var(--color-oranye);
+    color: #fff;
+  }
+
+  .tombol-utama:hover {
+    background: var(--color-oranye-tua);
+  }
+
+  .tombol-garis {
+    border-color: var(--color-garis);
+    background: #fff;
+    color: var(--color-tinta);
+  }
+
+  .tombol-garis:hover {
+    border-color: var(--color-tinta);
+  }
+
+  .tombol-terang {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+  }
+
+  .tombol-terang:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .tombol-bahaya {
+    border-color: #c0341a;
+    color: #a92c14;
+    background: #fff;
+  }
+
+  .tombol-bahaya:hover:not(:disabled) {
+    background: #a92c14;
+    color: #fff;
+  }
+
+  .tombol:disabled {
+    opacity: 0.5;
+  }
+
+  .tombol-kecil {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  /* ── Kartu ───────────────────────────────────────────────────────────── */
+
+  .kartu {
+    background: #fff;
+    border: 1px solid var(--color-garis);
+    border-radius: 0.5rem;
+  }
+
+  .kartu-gelap {
+    background: var(--color-gelap-2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    color: #fff;
+  }
+
+  /* ── Formulir ────────────────────────────────────────────────────────── */
+
+  .isian {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--color-garis);
+    border-radius: 0.3rem;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.95rem;
+    color: var(--color-tinta);
+  }
+
+  .isian:focus {
+    outline: 2px solid var(--color-oranye);
+    outline-offset: 1px;
+  }
+
+  .label-isian {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-abu);
+    margin-bottom: 0.35rem;
+  }
+
+  /* ── Lencana status ──────────────────────────────────────────────────── */
+
+  .lencana {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-garis);
+    color: var(--color-abu);
+  }
+
+  .lencana-berjalan {
+    border-color: var(--color-oranye);
+    color: var(--color-oranye);
+  }
+
+  .lencana-selesai {
+    border-color: var(--color-garis);
+    color: var(--color-abu);
+  }
+
+  /* ── Pesan ───────────────────────────────────────────────────────────── */
+
+  .pesan {
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-garis);
+    background: #fff;
+    padding: 0.8rem 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  .pesan-galat {
+    border-color: #e8b4a6;
+    background: #fdf1ed;
+    color: #a92c14;
+  }
+
+  .pesan-baik {
+    border-color: #bcd9c0;
+    background: #f0f7f1;
+    color: #276b35;
+  }
+
+  .pesan-ingat {
+    border-color: #f0c9a8;
+    background: #fdf4ea;
+    color: #8a4b12;
+  }
+
+  /* ── Angka besar (pita statistik) ────────────────────────────────────── */
+
+  .angka-besar {
+    font-family: var(--font-judul-stack);
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 700;
+    color: var(--color-oranye);
+    line-height: 1;
+  }
 }

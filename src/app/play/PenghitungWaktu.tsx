@@ -16,7 +16,10 @@ export default function PenghitungWaktu({ mulaiIso }: { mulaiIso: string }) {
   const menit = Math.floor(detik / 60);
 
   return (
-    <p className="font-mono text-sm tabular-nums opacity-70" aria-live="off">
+    <p
+      className="rounded border border-garis bg-white px-3 py-1.5 font-judul text-lg tabular-nums"
+      aria-live="off"
+    >
       {menit}:{String(detik % 60).padStart(2, '0')}
     </p>
   );

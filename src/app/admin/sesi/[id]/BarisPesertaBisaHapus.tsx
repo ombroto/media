@@ -21,26 +21,23 @@ export default function BarisPesertaBisaHapus({
   const [tanya, setTanya] = useState(false);
 
   return (
-    <li className="flex flex-wrap items-center gap-3 py-2">
+    <li className="flex flex-wrap items-center gap-3 px-4 py-3">
       <div className="min-w-0 flex-1">
         <p className="truncate">{alias}</p>
-        {keterangan ? <p className="text-xs opacity-60">{keterangan}</p> : null}
+        {keterangan ? <p className="text-xs text-abu">{keterangan}</p> : null}
       </div>
 
       {tanya ? (
         <form action={aksiHapusPeserta} className="flex items-center gap-2">
           <input type="hidden" name="sesiId" value={sesiId} />
           <input type="hidden" name="pesertaId" value={pesertaId} />
-          <button
-            type="submit"
-            className="rounded-lg border border-red-600 px-2 py-1 text-xs font-semibold text-red-700 dark:border-red-400 dark:text-red-400"
-          >
+          <button type="submit" className="tombol tombol-bahaya tombol-kecil tombol-polos">
             Ya, hapus
           </button>
           <button
             type="button"
             onClick={() => setTanya(false)}
-            className="text-xs underline opacity-70"
+            className="text-xs text-abu underline"
           >
             batal
           </button>
@@ -49,7 +46,7 @@ export default function BarisPesertaBisaHapus({
         <button
           type="button"
           onClick={() => setTanya(true)}
-          className="text-xs underline opacity-60"
+          className="text-xs text-abu underline hover:text-tinta"
         >
           hapus
         </button>

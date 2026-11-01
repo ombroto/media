@@ -17,15 +17,18 @@ export default async function HalamanHasil() {
   // mendapat penutup yang jelas.
   if (peserta.scoring === 'unscored') {
     return (
-      <main className="mx-auto max-w-sm space-y-4 py-10 text-center">
-        <h1 className="text-xl font-semibold">Selesai</h1>
-        <p className="text-sm opacity-80">
-          Terima kasih, {peserta.alias}. Kegiatan ini tidak memberi nilai, jadi
-          sesi ini tidak punya papan peringkat.
-        </p>
-        <Link href="/" className="inline-block text-sm underline">
-          kembali ke awal
-        </Link>
+      <main className="pita">
+        <div className="wadah-sempit text-center">
+          <span className="kerlip">Selesai</span>
+          <h1 className="judul-seksi mt-3">Terima kasih, {peserta.alias}</h1>
+          <p className="mt-3 text-sm leading-relaxed text-abu">
+            Kegiatan ini tidak memberi nilai, jadi sesi ini tidak punya papan
+            peringkat.
+          </p>
+          <Link href="/" className="tombol tombol-garis mt-6">
+            Kembali ke awal
+          </Link>
+        </div>
       </main>
     );
   }
@@ -37,23 +40,26 @@ export default async function HalamanHasil() {
     const mungkinTakBerskor = peserta.scoring !== 'scored';
 
     return (
-      <main className="mx-auto max-w-sm space-y-4 py-10 text-center">
-        <h1 className="text-xl font-semibold">Belum ada nilai</h1>
-        <p className="text-sm opacity-80">
-          {mungkinTakBerskor
-            ? `Terima kasih, ${peserta.alias}. Kegiatan ini belum mengirimkan nilai apa pun — bisa jadi memang tidak memberi nilai.`
-            : 'Nilai Anda belum masuk. Selesaikan dulu kontennya.'}
-        </p>
-        <p className="space-x-4">
-          <Link href="/play" className="text-sm underline">
-            kembali mengerjakan
-          </Link>
-          {mungkinTakBerskor ? (
-            <Link href="/" className="text-sm underline opacity-70">
-              sudah cukup, keluar
+      <main className="pita">
+        <div className="wadah-sempit text-center">
+          <span className="kerlip">Belum ada nilai</span>
+          <h1 className="judul-seksi mt-3">Nilai Anda belum masuk</h1>
+          <p className="mt-3 text-sm leading-relaxed text-abu">
+            {mungkinTakBerskor
+              ? `Terima kasih, ${peserta.alias}. Kegiatan ini belum mengirimkan nilai apa pun — bisa jadi memang tidak memberi nilai.`
+              : 'Selesaikan dulu kontennya.'}
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link href="/play" className="tombol tombol-utama">
+              Kembali mengerjakan
             </Link>
-          ) : null}
-        </p>
+            {mungkinTakBerskor ? (
+              <Link href="/" className="tombol tombol-garis">
+                Sudah cukup
+              </Link>
+            ) : null}
+          </div>
+        </div>
       </main>
     );
   }
@@ -62,35 +68,40 @@ export default async function HalamanHasil() {
   const saya = baris.find((b) => b.id === peserta.id);
 
   return (
-    <main className="mx-auto max-w-md space-y-6 py-8">
-      <header className="space-y-1 text-center">
-        <p className="text-sm opacity-70">{peserta.session_title}</p>
-        <p className="text-5xl font-semibold tabular-nums">
-          {peserta.score_raw}
-          <span className="text-2xl opacity-60">/{peserta.score_max}</span>
-        </p>
-        <p className="text-sm opacity-70">
-          selesai dalam{' '}
-          {durasiSingkat(peserta.finished_at.getTime() - peserta.started_at.getTime())}
-          {saya ? ` · peringkat ${saya.peringkat} dari ${baris.length}` : null}
-        </p>
-      </header>
-
-      <section className="space-y-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide opacity-60">
-          Papan peringkat
-        </h2>
-        <PapanPeringkat baris={baris} sorotiId={peserta.id} />
+    <main>
+      <section className="pita-gelap py-12">
+        <div className="wadah-sempit text-center">
+          <span className="kerlip">{peserta.session_title}</span>
+          <p className="mt-4 font-judul text-6xl font-bold tabular-nums text-white">
+            {peserta.score_raw}
+            <span className="text-3xl text-white/50">/{peserta.score_max}</span>
+          </p>
+          <p className="mt-3 text-sm text-white/70">
+            selesai dalam{' '}
+            {durasiSingkat(peserta.finished_at.getTime() - peserta.started_at.getTime())}
+            {saya ? ` · peringkat ${saya.peringkat} dari ${baris.length}` : null}
+          </p>
+        </div>
       </section>
 
-      <p className="text-center text-xs opacity-70">
-        Ingin mencoba lagi? Masuk kembali dengan PIN yang sama memakai nama lain.
-      </p>
-      <p className="text-center">
-        <Link href="/" className="text-sm underline">
-          kembali ke awal
-        </Link>
-      </p>
+      <section className="pita">
+        <div className="wadah-sempit space-y-4">
+          <div className="text-center">
+            <span className="kerlip">Papan peringkat</span>
+          </div>
+
+          <PapanPeringkat baris={baris} sorotiId={peserta.id} />
+
+          <p className="text-center text-sm text-abu">
+            Ingin mencoba lagi? Masuk kembali dengan PIN yang sama memakai nama lain.
+          </p>
+          <p className="text-center">
+            <Link href="/" className="tombol tombol-garis">
+              Kembali ke awal
+            </Link>
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

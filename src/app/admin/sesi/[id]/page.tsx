@@ -37,140 +37,155 @@ export default async function HalamanPantauSesi({
   const pembuka = berskor ? [] : await pesertaSudahMembuka(sesi.id);
 
   return (
-    <main className="space-y-6">
-      <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <div>
-          <h1 className="text-xl font-semibold">{sesi.title}</h1>
-          <p className="text-sm opacity-70">
-            {konten?.title ?? 'Konten'} · {status}
+    <main>
+      <section className="pita-gelap py-10">
+        <div className="wadah space-y-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <span className="kerlip">{konten?.title ?? 'Konten'}</span>
+              <h1 className="mt-2 text-3xl text-white">{sesi.title}</h1>
+            </div>
+            <Link href="/admin" className="tombol tombol-terang tombol-kecil">
+              Daftar sesi
+            </Link>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-[auto_1fr] md:items-center">
+            <div className="rounded-lg border border-white/15 bg-white/5 px-6 py-4">
+              <p className="text-xs uppercase tracking-[0.14em] text-white/50">PIN</p>
+              <p className="font-judul text-4xl tracking-[0.25em] text-oranye">
+                {sesi.pin}
+              </p>
+              <p className="mt-1 text-xs text-white/50">/j/{sesi.pin}</p>
+            </div>
+
+            <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              <div>
+                <dd className="angka-besar">{ringkas.jumlah_ikut}</dd>
+                <dt className="text-xs uppercase tracking-[0.12em] text-white/50">Ikut</dt>
+              </div>
+
+              {berskor ? (
+                <>
+                  <div>
+                    <dd className="angka-besar">{ringkas.jumlah_selesai}</dd>
+                    <dt className="text-xs uppercase tracking-[0.12em] text-white/50">
+                      Selesai
+                    </dt>
+                  </div>
+                  <div>
+                    <dd className="angka-besar">
+                      {ringkas.rata_rata === null
+                        ? '—'
+                        : ringkas.rata_rata.toLocaleString('id-ID', {
+                            maximumFractionDigits: 1,
+                          })}
+                    </dd>
+                    <dt className="text-xs uppercase tracking-[0.12em] text-white/50">
+                      Rata-rata
+                    </dt>
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-2 self-center">
+                  <p className="text-sm text-white/60">
+                    Kegiatan ini tidak memberi nilai, jadi tidak ada peringkat.
+                  </p>
+                </div>
+              )}
+            </dl>
+          </div>
+
+          <p className="text-sm text-white/50">
+            {status} · dibuka {waktuPanjang(sesi.opens_at)} · ditutup{' '}
+            {waktuPanjang(sesi.closes_at)}
+            {sesi.closed_early_at
+              ? ` · ditutup lebih cepat ${waktuPanjang(sesi.closed_early_at)}`
+              : ''}
           </p>
         </div>
-        <Link href="/admin" className="text-sm underline opacity-70">
-          daftar sesi
-        </Link>
-      </header>
-
-      {baru ? (
-        <p className="rounded-lg border border-green-600/40 bg-green-600/10 p-3 text-sm">
-          Sesi dibuat. Bagikan PIN di bawah ini ke peserta.
-        </p>
-      ) : null}
-
-      <section className="rounded-xl border border-black/15 p-4 dark:border-white/20">
-        <p className="text-xs uppercase tracking-wide opacity-60">PIN</p>
-        <p className="font-mono text-4xl tracking-[0.3em]">{sesi.pin}</p>
-        <p className="mt-2 break-all text-sm opacity-70">
-          Tautan langsung: <code>/j/{sesi.pin}</code>
-        </p>
-        <p className="mt-1 text-sm opacity-70">
-          Dibuka {waktuPanjang(sesi.opens_at)} · ditutup {waktuPanjang(sesi.closes_at)}
-          {sesi.closed_early_at
-            ? ` · ditutup lebih cepat ${waktuPanjang(sesi.closed_early_at)}`
-            : ''}
-        </p>
       </section>
 
-      <section className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-        <p>
-          <strong>{ringkas.jumlah_ikut}</strong> ikut
-        </p>
-        {berskor ? (
-          <>
-            <p>
-              <strong>{ringkas.jumlah_selesai}</strong> selesai
-            </p>
-            <p>
-              rata-rata{' '}
-              <strong>
-                {ringkas.rata_rata === null
-                  ? '—'
-                  : ringkas.rata_rata.toLocaleString('id-ID', {
-                      maximumFractionDigits: 1,
-                    })}
-              </strong>
-            </p>
-          </>
-        ) : (
-          <p className="opacity-70">kegiatan ini tidak memberi nilai</p>
-        )}
-      </section>
+      <section className="pita">
+        <div className="wadah space-y-6">
+          {baru ? (
+            <p className="pesan pesan-baik">Sesi dibuat. Bagikan PIN di atas ke peserta.</p>
+          ) : null}
 
-      <section className="space-y-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide opacity-60">
-          {berskor ? 'Peringkat' : 'Sudah membuka'}
-        </h2>
+          <div className="space-y-3">
+            <span className="kerlip">{berskor ? 'Peringkat' : 'Sudah membuka'}</span>
 
-        {berskor ? (
-          <PapanPeringkat baris={peringkat} />
-        ) : pembuka.length === 0 ? (
-          <p className="text-sm opacity-70">Belum ada yang membuka.</p>
-        ) : (
-          <ul className="divide-y divide-black/10 dark:divide-white/15">
-            {pembuka.map((p) => (
-              <BarisPesertaBisaHapus
-                key={p.id}
-                sesiId={sesi.id}
-                pesertaId={p.id}
-                alias={p.alias}
-                keterangan={waktuPanjang(p.started_at)}
-              />
-            ))}
-          </ul>
-        )}
-      </section>
+            {berskor ? (
+              <PapanPeringkat baris={peringkat} />
+            ) : pembuka.length === 0 ? (
+              <p className="text-sm text-abu">Belum ada yang membuka.</p>
+            ) : (
+              <ul className="kartu divide-y divide-garis">
+                {pembuka.map((p) => (
+                  <BarisPesertaBisaHapus
+                    key={p.id}
+                    sesiId={sesi.id}
+                    pesertaId={p.id}
+                    alias={p.alias}
+                    keterangan={waktuPanjang(p.started_at)}
+                  />
+                ))}
+              </ul>
+            )}
+          </div>
 
-      {berskor && ringkas.belum_selesai.length > 0 ? (
-        <section className="space-y-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide opacity-60">
-            Belum selesai
-          </h2>
-          <ul className="divide-y divide-black/10 dark:divide-white/15">
-            {ringkas.belum_selesai.map((p) => (
-              <BarisPesertaBisaHapus
-                key={p.id}
-                sesiId={sesi.id}
-                pesertaId={p.id}
-                alias={p.alias}
-                keterangan={`mulai ${waktuPanjang(p.started_at)}`}
-              />
-            ))}
-          </ul>
-        </section>
-      ) : null}
+          {berskor && ringkas.belum_selesai.length > 0 ? (
+            <div className="space-y-3">
+              <span className="kerlip">Belum selesai</span>
+              <ul className="kartu divide-y divide-garis">
+                {ringkas.belum_selesai.map((p) => (
+                  <BarisPesertaBisaHapus
+                    key={p.id}
+                    sesiId={sesi.id}
+                    pesertaId={p.id}
+                    alias={p.alias}
+                    keterangan={`mulai ${waktuPanjang(p.started_at)}`}
+                  />
+                ))}
+              </ul>
+            </div>
+          ) : null}
 
-      <section className="flex flex-wrap items-center gap-2 border-t border-black/15 pt-4 text-sm dark:border-white/20">
-        {berskor ? (
-          <a
-            href={`/admin/sesi/${sesi.id}/csv`}
-            className="rounded-lg border border-black/25 px-3 py-1.5 font-semibold dark:border-white/30"
-          >
-            Unduh CSV
-          </a>
-        ) : null}
+          <div className="flex flex-wrap items-center gap-3 border-t border-garis pt-5">
+            {berskor ? (
+              <a
+                href={`/admin/sesi/${sesi.id}/csv`}
+                className="tombol tombol-utama tombol-kecil"
+              >
+                Unduh CSV
+              </a>
+            ) : null}
 
-        {status !== 'selesai' ? (
-          <form action={aksiTutupSekarang}>
-            <input type="hidden" name="sesiId" value={sesi.id} />
-            <button
-              type="submit"
-              className="rounded-lg border border-black/25 px-3 py-1.5 font-semibold dark:border-white/30"
+            {status !== 'selesai' ? (
+              <form action={aksiTutupSekarang}>
+                <input type="hidden" name="sesiId" value={sesi.id} />
+                <button type="submit" className="tombol tombol-garis tombol-kecil">
+                  Tutup sekarang
+                </button>
+              </form>
+            ) : null}
+
+            <Link
+              href={`/admin/sesi/${sesi.id}/ubah`}
+              className="text-sm text-abu underline hover:text-tinta"
             >
-              Tutup sekarang
-            </button>
-          </form>
-        ) : null}
+              ubah sesi
+            </Link>
+          </div>
 
-        <Link href={`/admin/sesi/${sesi.id}/ubah`} className="underline opacity-70">
-          ubah sesi
-        </Link>
+          {status !== 'selesai' ? (
+            <p className="text-xs text-abu">
+              Menutup lebih cepat hanya mengunci pintu masuk. Peserta yang sedang
+              mengerjakan tetap bisa menyetorkan nilainya.
+            </p>
+          ) : null}
+        </div>
       </section>
-
-      {status !== 'selesai' ? (
-        <p className="text-xs opacity-70">
-          Menutup lebih cepat hanya mengunci pintu masuk. Peserta yang sedang
-          mengerjakan tetap bisa menyetorkan nilainya.
-        </p>
-      ) : null}
     </main>
   );
 }

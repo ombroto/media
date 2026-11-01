@@ -14,84 +14,97 @@ export default async function HalamanPustakaKonten() {
   const daftar = await daftarKonten(guru.id);
 
   return (
-    <main className="space-y-8">
-      <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-xl font-semibold">Pustaka konten</h1>
-        <Link href="/admin" className="text-sm underline opacity-70">
-          daftar sesi
-        </Link>
-      </header>
+    <main>
+      <section className="pita-gelap py-10">
+        <div className="wadah flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="kerlip">Pustaka</span>
+            <h1 className="mt-2 text-3xl text-white">Konten H5P</h1>
+            <p className="mt-1 max-w-md text-sm text-white/60">
+              Unggah sekali, pakai untuk banyak sesi. Pustaka tipe kontennya
+              diunduh otomatis kalau belum ada di server.
+            </p>
+          </div>
+          <Link href="/admin" className="tombol tombol-terang tombol-kecil">
+            Daftar sesi
+          </Link>
+        </div>
+      </section>
 
-      <FormUnggah />
+      <section className="pita">
+        <div className="wadah space-y-8">
+          <FormUnggah />
 
-      <section className="space-y-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide opacity-60">
-          Konten Anda
-        </h2>
+          <div className="space-y-4">
+            <span className="kerlip">Konten Anda</span>
 
-        {daftar.length === 0 ? (
-          <p className="text-sm opacity-70">
-            Belum ada konten. Unggah satu berkas .h5p untuk mulai.
-          </p>
-        ) : (
-          <ul className="divide-y divide-black/10 dark:divide-white/15">
-            {daftar.map((k) => (
-              <li key={k.id} className="flex flex-wrap items-center gap-3 py-3">
-                <div className="min-w-0 flex-1">
-                  <p className="font-medium">{k.title}</p>
-                  <p className="text-xs opacity-70">
-                    {k.main_library}
-                    {' · '}
-                    {k.jumlah_sesi === 0 ? 'belum dipakai' : `${k.jumlah_sesi} sesi`}
-                    {k.scoring === 'unscored' ? ' · tanpa skor' : ''}
-                  </p>
-                </div>
+            {daftar.length === 0 ? (
+              <p className="text-sm text-abu">
+                Belum ada konten. Unggah satu berkas .h5p untuk mulai.
+              </p>
+            ) : (
+              <ul className="grid gap-4 md:grid-cols-2">
+                {daftar.map((k) => (
+                  <li key={k.id} className="kartu flex flex-col gap-3 p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <h2 className="text-lg leading-snug">{k.title}</h2>
+                      {k.scoring === 'unscored' ? (
+                        <span className="lencana">tanpa peringkat</span>
+                      ) : null}
+                    </div>
 
-                {k.scoring === 'unscored' ? (
-                  <span className="rounded-full border border-black/25 px-2 py-0.5 text-[10px] uppercase dark:border-white/30">
-                    tanpa peringkat
-                  </span>
-                ) : null}
+                    <p className="text-xs text-abu">
+                      {k.main_library}
+                      {' · '}
+                      {k.jumlah_sesi === 0 ? 'belum dipakai' : `${k.jumlah_sesi} sesi`}
+                    </p>
 
-                <Link
-                  href={`/admin/sesi/baru?konten=${k.id}`}
-                  className="rounded-lg border border-black/25 px-3 py-1.5 text-xs font-semibold dark:border-white/30"
-                >
-                  Buat sesi
-                </Link>
-                <Link
-                  href={`/dev/play/${k.h5p_content_id}`}
-                  className="text-xs underline opacity-70"
-                >
-                  pratinjau
-                </Link>
-                {k.scoring === 'unknown' ? (
-                  <form action={aksiTandaiTanpaSkor}>
-                    <input type="hidden" name="kontenId" value={k.id} />
-                    <button type="submit" className="text-xs underline opacity-60">
-                      tandai tanpa skor
-                    </button>
-                  </form>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        )}
+                    <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
+                      <Link
+                        href={`/admin/sesi/baru?konten=${k.id}`}
+                        className="tombol tombol-utama tombol-kecil"
+                      >
+                        Buat sesi
+                      </Link>
+                      <Link
+                        href={`/dev/play/${k.h5p_content_id}`}
+                        className="tombol tombol-garis tombol-kecil"
+                      >
+                        Pratinjau
+                      </Link>
+                      {k.scoring === 'unknown' ? (
+                        <form action={aksiTandaiTanpaSkor}>
+                          <input type="hidden" name="kontenId" value={k.id} />
+                          <button
+                            type="submit"
+                            className="text-xs text-abu underline hover:text-tinta"
+                          >
+                            tandai tanpa skor
+                          </button>
+                        </form>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
 
-        {daftar.some((k) => k.scoring === 'unscored') ? (
-          <p className="text-xs opacity-70">
-            Konten bertanda &quot;tanpa peringkat&quot; memang tidak pernah mengirim
-            nilai, jadi sesinya hanya menampilkan siapa yang sudah membuka.
-          </p>
-        ) : null}
+            {daftar.some((k) => k.scoring === 'unscored') ? (
+              <p className="text-xs text-abu">
+                Konten bertanda &quot;tanpa peringkat&quot; memang tidak pernah mengirim
+                nilai, jadi sesinya hanya menampilkan siapa yang sudah membuka.
+              </p>
+            ) : null}
 
-        {daftar.some((k) => k.scoring === 'unknown') ? (
-          <p className="text-xs opacity-70">
-            Kalau sebuah konten ternyata tidak memberi nilai sama sekali, tandai
-            lewat &quot;tandai tanpa skor&quot; — pesertanya akan mendapat halaman
-            penutup, bukan tercatat belum selesai.
-          </p>
-        ) : null}
+            {daftar.some((k) => k.scoring === 'unknown') ? (
+              <p className="text-xs text-abu">
+                Kalau sebuah konten ternyata tidak memberi nilai sama sekali, tandai
+                lewat &quot;tandai tanpa skor&quot; — pesertanya akan mendapat halaman
+                penutup, bukan tercatat belum selesai.
+              </p>
+            ) : null}
+          </div>
+        </div>
       </section>
     </main>
   );

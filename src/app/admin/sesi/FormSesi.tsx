@@ -23,79 +23,89 @@ export default function FormSesi({
   const [keadaan, kirim, sedangKirim] = useActionState<KeadaanSesi, FormData>(aksi, {});
 
   return (
-    <form action={kirim} className="space-y-4">
+    <form action={kirim} className="kartu space-y-5 p-6">
       {kontenId ? <input type="hidden" name="kontenId" value={kontenId} /> : null}
       {sesiId ? <input type="hidden" name="sesiId" value={sesiId} /> : null}
 
-      <p className="text-sm opacity-70">Konten: <strong>{judulKonten}</strong></p>
+      <p className="text-sm text-abu">
+        Konten: <strong className="text-tinta">{judulKonten}</strong>
+      </p>
 
-      <label className="block space-y-1">
-        <span className="text-sm">Judul sesi</span>
+      <div>
+        <label htmlFor="judul" className="label-isian">
+          Judul sesi
+        </label>
         <input
+          id="judul"
           name="judul"
           defaultValue={awal.judul}
           required
           maxLength={200}
-          className="w-full rounded-lg border border-black/20 px-3 py-2 dark:border-white/25"
+          className="isian"
         />
-      </label>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block space-y-1">
-          <span className="text-sm">Dibuka</span>
+        <div>
+          <label htmlFor="dibuka" className="label-isian">
+            Dibuka
+          </label>
           <input
+            id="dibuka"
             type="datetime-local"
             name="dibuka"
             defaultValue={awal.dibuka}
             required
-            className="w-full rounded-lg border border-black/20 px-3 py-2 dark:border-white/25"
+            className="isian"
           />
-        </label>
-        <label className="block space-y-1">
-          <span className="text-sm">Ditutup</span>
+        </div>
+        <div>
+          <label htmlFor="ditutup" className="label-isian">
+            Ditutup
+          </label>
           <input
+            id="ditutup"
             type="datetime-local"
             name="ditutup"
             defaultValue={awal.ditutup}
             required
-            className="w-full rounded-lg border border-black/20 px-3 py-2 dark:border-white/25"
+            className="isian"
           />
-        </label>
+        </div>
       </div>
 
-      <label className="block space-y-1">
-        <span className="text-sm">PIN</span>
+      <div>
+        <label htmlFor="pin" className="label-isian">
+          PIN
+        </label>
         <input
+          id="pin"
           name="pin"
           defaultValue={awal.pin}
           required
           inputMode="numeric"
           pattern="[0-9]{6}"
-          className="w-40 rounded-lg border border-black/20 px-3 py-2 font-mono text-lg tracking-widest dark:border-white/25"
+          className="isian w-44 font-judul text-2xl tracking-[0.25em]"
         />
-        <span className="block text-xs opacity-70">
+        <span className="mt-1 block text-xs text-abu">
           Enam angka. Boleh diganti selama belum dipakai sesi lain.
         </span>
-      </label>
+      </div>
 
       {adaPeserta ? (
-        <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+        <p className="pesan pesan-ingat">
           Sesi ini sudah punya peserta. Kalau PIN-nya diganti, PIN lama langsung
           tidak berlaku dan peserta yang belum masuk harus diberi PIN baru.
         </p>
       ) : null}
 
       {keadaan.galat ? (
-        <p role="alert" className="text-sm text-red-700 dark:text-red-400">
+        <p role="alert" className="pesan pesan-galat">
           {keadaan.galat}
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={sedangKirim}
-        className="rounded-lg bg-black px-4 py-2 font-semibold text-white disabled:opacity-60 dark:bg-white dark:text-black"
-      >
+      <button type="submit" disabled={sedangKirim} className="tombol tombol-utama">
         {sedangKirim ? 'Menyimpan…' : labelTombol}
       </button>
     </form>

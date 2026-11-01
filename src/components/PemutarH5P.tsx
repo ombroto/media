@@ -37,7 +37,7 @@ export default function PemutarH5P({
       ref={iframeRef}
       src={`/h5p/view/${encodeURIComponent(h5pContentId)}`}
       title={judul ?? 'Konten interaktif'}
-      className="w-full rounded-lg border border-black/10 dark:border-white/15"
+      className="w-full rounded-lg border border-garis bg-white"
       style={{ height: `${tinggi}px` }}
       allow="autoplay; fullscreen; microphone; camera"
     />
