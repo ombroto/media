@@ -92,6 +92,52 @@
     return null;
   }
 
+  /**
+   * Nama fungsi penilaian pada tipe konten yang tidak punya kontrak
+   * getXAPIData/getScore. Memanggilnya membuat konten memancarkan pernyataan
+   * 'completed' berisi skor, yang lalu ditangkap pendengar di bawah.
+   *
+   * H5P.ImagePair memakai displayResult dan membukanya sebagai metode publik;
+   * tombol Check bawaannya memanggil fungsi yang sama persis.
+   */
+  var FUNGSI_PENILAIAN = ['displayResult', 'showResult', 'showEvaluation', 'checkAnswer'];
+
+  /** Fungsi penilaian milik konten, kalau ia tidak punya kontrak nilai. */
+  function penilaiBawaan() {
+    var inst = instansi();
+    if (!inst) return null;
+
+    // Tipe yang punya kontrak tidak perlu diambil alih — tombol Kirim sudah
+    // bisa meminta nilainya langsung.
+    if (typeof inst.getXAPIData === 'function') return null;
+    if (typeof inst.getScore === 'function' && typeof inst.getMaxScore === 'function') {
+      return null;
+    }
+
+    for (var i = 0; i < FUNGSI_PENILAIAN.length; i++) {
+      if (typeof inst[FUNGSI_PENILAIAN[i]] === 'function') {
+        return { inst: inst, nama: FUNGSI_PENILAIAN[i] };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Menyembunyikan tombol bawaan milik tipe yang kita ambil alih.
+   *
+   * Hanya dipasang kalau fungsi penilaiannya memang ketemu, karena
+   * .h5p-joubelui-button juga dipakai tipe lain untuk navigasi yang sah —
+   * menyembunyikannya di mana-mana akan merusak konten tersebut.
+   */
+  function sembunyikanTombolBawaan() {
+    if (document.getElementById('gaya-tombol-bawaan')) return;
+
+    var gaya = document.createElement('style');
+    gaya.id = 'gaya-tombol-bawaan';
+    gaya.textContent = '.h5p-content .h5p-joubelui-button { display: none !important; }';
+    document.head.appendChild(gaya);
+  }
+
   function keLuar() {
     if (window.parent !== window) {
       window.parent.postMessage({ jenis: 'selesai-h5p' }, window.location.origin);
@@ -138,15 +184,35 @@
   if (tombol) {
     tombol.addEventListener('click', function () {
       var s = pernyataanDariKontrak();
-
-      if (!s) {
-        // Konten tanpa nilai: tidak ada yang perlu dicatat, langsung keluar.
-        tombol.disabled = true;
-        keLuar();
+      if (s) {
+        kirim(s, false);
         return;
       }
 
-      kirim(s, false);
+      // Tipe tanpa kontrak nilai: nilainya baru lahir saat fungsi penilaian
+      // kontennya dipanggil. Pernyataan 'completed' yang dipancarkannya
+      // ditangkap pendengar di bawah, yang lalu mengirim dan memindahkan
+      // halaman — jadi di sini cukup memicunya.
+      var penilai = penilaiBawaan();
+      if (penilai) {
+        tombol.disabled = true;
+        tombol.textContent = 'Menilai…';
+        try {
+          penilai.inst[penilai.nama]();
+        } catch (e) {
+          tombol.disabled = false;
+          tombol.textContent = 'Kirim jawaban';
+          if (keterangan) {
+            keterangan.textContent = 'Penilaian gagal dijalankan. Coba lagi.';
+            keterangan.style.color = '#a92c14';
+          }
+        }
+        return;
+      }
+
+      // Konten tanpa nilai sama sekali: tidak ada yang perlu dicatat.
+      tombol.disabled = true;
+      keLuar();
     });
   }
 
@@ -160,13 +226,38 @@
     return true;
   }
 
+  /**
+   * Menunggu instance H5P ada, lalu menyembunyikan tombol bawaannya kalau kita
+   * memang mengambil alih penilaiannya. Pendengar xAPI bisa dipasang sebelum
+   * instance-nya lahir, jadi pemeriksaan ini punya penantiannya sendiri.
+   */
+  function siapkanPengambilalihan() {
+    var coba = 0;
+    var ulang = setInterval(function () {
+      if (instansi()) {
+        clearInterval(ulang);
+        if (penilaiBawaan()) sembunyikanTombolBawaan();
+        return;
+      }
+      if (++coba > 60) clearInterval(ulang);
+    }, 100);
+  }
+
   function mulai() {
-    if (pasangPendengar()) return;
+    if (pasangPendengar()) {
+      siapkanPengambilalihan();
+      return;
+    }
 
     // H5P kadang belum siap saat skrip ini jalan.
     var coba = 0;
     var ulang = setInterval(function () {
-      if (pasangPendengar() || ++coba > 40) clearInterval(ulang);
+      if (pasangPendengar()) {
+        clearInterval(ulang);
+        siapkanPengambilalihan();
+        return;
+      }
+      if (++coba > 40) clearInterval(ulang);
     }, 100);
   }
 
