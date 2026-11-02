@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Imagen de fondo",
+      "description": "Imagen mostrada en el fondo."
+    },
+    {
+      "label": "Texto alternativo para imagen de fondo",
+      "description": "Si el navegador no puede cargar la imagen, este texto se mostrará en su lugar. También utilizado por las tecnologías de asistencia."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Imagen subida"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "punto caliente (hotspot)",
+      "label": "Puntos calientes (Hotspots)",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Punto caliente (Hotspot)",
+        "fields": [
+          {
+            "label": "Posición del Hotspot",
+            "description": "Haga clic en la imagen en miniatura para colocar el hotspot"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Cubrir toda la imagen de fondo",
+            "description": "Cuando el usuario hace clic en el hotspot, la ventana emergente cubrirá toda la imagen de fondo"
+          },
+          {
+            "label": "Encabezado",
+            "description": "Encabezado opcional para el popup. Esto es usado por tecnologías de asistencia."
+          },
+          {
+            "label": "Contenido emergente",
+            "field": {
+              "label": "Elemento del Contenido"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Etiqueta de cierre de botón para tecnologías de asistencia",
+      "default": "Cerrar"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

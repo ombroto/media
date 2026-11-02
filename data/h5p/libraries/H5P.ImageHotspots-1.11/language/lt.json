@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Fono paveikslėlis",
+      "description": "Paveikslėlis rodomas fone."
+    },
+    {
+      "label": "Alternatyvus tekstas fono paveikslėliui",
+      "description": "Jei naršyklė negali įkelti paveikslėlio, vietoj jo bus rodomas šis tekstas. Taip pat naudojamos pagalbinės technologijos."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Įkeltas paveikslėlis"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "aktyvioji sritis",
+      "label": "Aktyviosios sritys",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Aktyvioji sritis",
+        "fields": [
+          {
+            "label": "Aktyviosios srities pozicija",
+            "description": "Norėdami įdėti aktyviąją sritį, spustelėkite miniatiūros paveikslėlį"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Uždengti visą fono paveikslėlį",
+            "description": "Kai naudotojas spusteli aktyviąją sritį, iššokantis langas apims visą fono paveikslėlį"
+          },
+          {
+            "label": "Antraštė",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Iššokantis turinys",
+            "field": {
+              "label": "Turinio elementas"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Uždaryti mygtuko pavadinimas, skirtas pagalbinėms technologijoms",
+      "default": "Uždaryti"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

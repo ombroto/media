@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Fona attēls",
+      "description": "Fonā rādāmais attēls."
+    },
+    {
+      "label": "Teksta alternatīva fona attēlam",
+      "description": "Ja pārlūkprogramma nevar ielādēt attēlu, tiks atspoguļots šis teksts. Tekstu izmanto arī asistīvās tehnoloģijas."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Augšupielādēts attēls"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "aktīvais punkts",
+      "label": "Aktīvie punkti",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Aktīvais punkts",
+        "fields": [
+          {
+            "label": "Aktīvā punkta pozīcija",
+            "description": "Klikšķiniet uz sīktēla, lai ievietotu aktīvo punktu"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Pārklāt visu fona attēlu",
+            "description": "Kad lietotājs klikšķina aktīvo punktu, iznirstošais logs nosegs visu fona attēlu"
+          },
+          {
+            "label": "Galvene",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Iznirstošā loga saturs",
+            "field": {
+              "label": "Satura elements"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Aizvēršanas pogas etiķete asistīvajām tehnoloģijām",
+      "default": "Aizvērt"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

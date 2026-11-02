@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Фоново изображение",
+      "description": "Изображение, показвано като фон."
+    },
+    {
+      "label": "Алтернативен текст за фоново изображение",
+      "description": "Ако браузърът не може да зареди изображението, вместо него ще се покаже този текст. Използва се и от помощни технологии като четци на екранен текст и др."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Качено изображение"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "активна точка",
+      "label": "Активни точки",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Актовна точка",
+        "fields": [
+          {
+            "label": "Позиция на активна точка",
+            "description": "Кликнете върху картинката, за да поставите активна точка"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Покрийте цялото фоново изображение",
+            "description": "Когато потребителят кликне на активната точка, изскачащото меню ще покрие цялото фоново изображение"
+          },
+          {
+            "label": "Хедър",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Изскачащо съдържание",
+            "field": {
+              "label": "Елемент на съдържанието"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Бутон за приключване за помощните технологии",
+      "default": "Приключи"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

@@ -18,7 +18,17 @@ declare global {
 
 // Mode dev Next.js memuat ulang modul; satu pool dipakai bersama agar
 // koneksi tidak menumpuk setiap kali berkas berubah.
-export const pool: Pool = globalThis.__pgPool ?? new Pool({ connectionString: url });
+export const pool: Pool =
+  globalThis.__pgPool ??
+  new Pool({
+    connectionString: url,
+    // Tiap instance fungsi serverless punya pool sendiri, dan jumlah instance
+    // bisa melonjak. Kolam besar di tiap instance akan menghabiskan jatah
+    // koneksi Neon; pakai endpoint -pooler milik Neon untuk penggabungannya.
+    max: process.env.VERCEL ? 2 : 10,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+  });
 globalThis.__pgPool = pool;
 
 export async function query<T = Record<string, unknown>>(

@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Háttérkép",
+      "description": "A háttérben látható kép."
+    },
+    {
+      "label": "Helyettesítő szöveg a háttérképhez",
+      "description": "Ha a böngésző nem tudja betölteni a képet, ez a szöveg jelenik meg helyette. A támogató-segítő eszközök is használják."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Feltöltött kép"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "interaktív pont",
+      "label": "Interaktív pontok",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Interaktív pont",
+        "fields": [
+          {
+            "label": "Interaktív pont helye",
+            "description": "Kattintson a miniatűr képre az interaktív pont elhelyezéséhez"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "A teljes háttérkép lefedése",
+            "description": "Amikor a felhasználó az interaktív pontra kattint, a felugró ablak a teljes háttérképet lefedi"
+          },
+          {
+            "label": "Fejléc",
+            "description": "Opcionális fejléc a felugró ablakhoz. Ezt a támogató-segítő eszközök használják."
+          },
+          {
+            "label": "Felugró ablak tartalma",
+            "field": {
+              "label": "Tartalom elem"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Bezárás gomb címkéje a támogató-segítő eszközöknek",
+      "default": "Bezárás"
+    },
+    {
+      "label": "Címke a támogató-segítő eszközöknek, amely jelzik, hogy az interaktív pont hangot/videót tartalmaz",
+      "default": "Hangot/videót tartalmaz"
+    }
+  ]
+}

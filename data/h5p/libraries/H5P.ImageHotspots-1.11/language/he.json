@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "תמונת רקע",
+      "description": "תמונה מוצגת ברקע."
+    },
+    {
+      "label": "טקסט חלופי עבור תמונת רקע",
+      "description": "אם הדפדפן לא יכול להעלות את התמונה טקסט זה יוצג במקום. בשימוש גם על ידי טכנולוגיות מסייעות."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "תמונה שהועלתה"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "נקודה־חמה",
+      "label": "נקודות־חמות",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "נקודה־חמה",
+        "fields": [
+          {
+            "label": "מיקום נקודה־חמה",
+            "description": "לחצו על התמונה הממוזערת כדי למקם את הנקודה-החמה"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "יש לכסות את כל תמונת הרקע",
+            "description": "כאשר המשתמש לוחץ על הנקודה-החמה החלון הקופץ יכסה את כל תמונת הרקע"
+          },
+          {
+            "label": "Header",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "תוכן החלון הקופץ",
+            "field": {
+              "label": "תוכן הפריט"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "תווית כפתור סגירה עבור טכנולוגיות מסייעות",
+      "default": "סגירה"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

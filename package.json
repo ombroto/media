@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/copy-h5p-core.mjs && next build",
     "start": "next start",
     "migrate": "node scripts/migrate.mjs",
     "h5p:core": "node scripts/copy-h5p-core.mjs",

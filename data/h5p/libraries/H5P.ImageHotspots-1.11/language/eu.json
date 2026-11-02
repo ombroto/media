@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Atzeko planoko irudia",
+      "description": "Atzeko planoan erakusten den irudia."
+    },
+    {
+      "label": "Atzeko planoko irudiaren ordezko testua",
+      "description": "Nabigatzaileak ezin badu irudia kargatu testu hau haren ordez erakutsiko da. Laguntzako teknologiek ere erabiltzen dute."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Igotako irudia"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "leku beroa",
+      "label": "Leku beroa",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Leku beroa",
+        "fields": [
+          {
+            "label": "Leku beroaren kokapena",
+            "description": "Egin klik miniaturan leku beroa kokatzeko"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Atzeko planoko irudi osoa estaltzen du",
+            "description": "Erabiltzaileak leku beroan klik egiten duenean popupak atzeko planoko irudi guztia estaliko du"
+          },
+          {
+            "label": "Goiburua",
+            "description": "Popup-aren goiburua aukerakoa. Hau laguntza-teknologiek erabiltzen dute."
+          },
+          {
+            "label": "Popuparen edukia",
+            "field": {
+              "label": "Eduki-elementua"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Itxi botoiaren etiketa laguntzako teknologietarako",
+      "default": "Itxi"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

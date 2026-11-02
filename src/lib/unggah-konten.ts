@@ -1,4 +1,4 @@
-import { BATAS_UNGGAH, H5P_USER_PENYELENGGARA } from '@/lib/h5p';
+import { BATAS_UNGGAH, H5P_USER_PENYELENGGARA, artefakHanyaBaca } from '@/lib/h5p';
 import { telanPaket } from '@/lib/h5p-ingest';
 import { simpanKonten } from '@/lib/repo/contents';
 
@@ -20,6 +20,16 @@ export type HasilUnggah =
  * ini.
  */
 export async function telanDanSimpan(ownerId: number, berkas: File): Promise<HasilUnggah> {
+  if (artefakHanyaBaca()) {
+    // Di Vercel, pustaka dan konten ikut dibawa dalam bundel dan disknya tidak
+    // bisa ditulis. Unggahan dikerjakan di mesin lokal lalu di-deploy ulang.
+    return {
+      ok: false,
+      pesan:
+        'Unggahan tidak bisa dilakukan dari situs yang sudah ter-deploy. Unggah di komputer Anda, lalu commit dan push — konten barunya ikut terbawa pada deploy berikutnya.',
+    };
+  }
+
   if (berkas.size === 0) {
     return { ok: false, pesan: 'Berkasnya kosong — pilih berkas .h5p yang benar.' };
   }

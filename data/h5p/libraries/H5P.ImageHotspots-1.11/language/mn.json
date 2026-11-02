@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Арын зураг",
+      "description": "Арын дэвсгэр дээр харуулсан зураг."
+    },
+    {
+      "label": "Дэвсгэр зургийн өөр текст",
+      "description": "Хэрэв хөтөч зургийг ачаалж чадахгүй бол оронд нь энэ текст гарч ирнэ. Мөн туслах технологид ашигладаг."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Байршуулсан зураг"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "халуун цэг",
+      "label": "халуун цэгүүд",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Халуун цэг",
+        "fields": [
+          {
+            "label": "Халуун цэгийн байрлал",
+            "description": "Халуун цэгийг байрлуулахын тулд өнгөц зураг дээр дарна уу"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Дэвсгэр зургийг бүхэлд нь хамарна",
+            "description": "Хэрэглэгч халуун цэг дээр товших үед попап нь дэвсгэр зургийг бүхэлд нь хамарна"
+          },
+          {
+            "label": "Толгой хэсэг",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Попап контент",
+            "field": {
+              "label": "Агуулгын зүйл"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Туслах технологийн товчлуурын шошгыг хаах",
+      "default": "Хаах"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

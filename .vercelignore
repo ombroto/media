@@ -1,0 +1,20 @@
+# Penelusuran Turbopack menarik seluruh berkas proyek (lihat src/lib/h5p.ts),
+# jadi yang tidak dibutuhkan saat berjalan dikeluarkan di sini supaya bundel
+# fungsinya tetap jauh di bawah batas 250 MB.
+
+# Unduhan gudang H5P: hanya dipakai saat memasang pustaka, dan pemasangan
+# pustaka tidak terjadi di produksi.
+data/h5p/hub-cache
+data/h5p-test
+
+# Berkas contoh dan bahan uji.
+konten
+tests
+
+# Dokumen dan catatan kerja.
+docs
+.superpowers
+AGENTS.md
+
+# Catatan: mod_hvp_2026090101.zip TIDAK dikeluarkan — skrip build membongkarnya
+# untuk menghasilkan aset inti klien H5P.

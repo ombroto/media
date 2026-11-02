@@ -1,0 +1,181 @@
+/* The main containers for the module, specific to this module. */
+.h5p-drag-text {
+  position: relative;
+  background: var(--h5p-theme-ui-base);
+  overflow: hidden;
+}
+.h5p-drag-text .h5p-drag-draggables-container
+.h5p-drag-text .hidden {
+  display: none;
+}
+
+.h5p-drag-text .h5p-draggable.h5p-draggable--dropped {
+  width: calc(100% + (var(--border-width) * 2));
+}
+
+.h5p-drag-text .h5p-draggable:not(.h5p-draggable--dropped) {
+  margin: var(--h5p-theme-spacing-xxs);
+}
+
+.h5p-drag-text .h5p-draggable.h5p-draggable--has-handle.h5p-draggable-correct,
+.h5p-drag-text .h5p-draggable.h5p-draggable--has-handle.h5p-draggable-wrong {
+  padding-left: var(--handle-width);
+}
+
+.h5p-drag-text .h5p-drag-draggables-container.no-handles .h5p-draggable {
+  padding-left: 0;
+}
+
+.h5p-drag-text .h5p-drag-inner p {
+  font-size: var(--h5p-theme-font-size-m);
+  font-weight: normal;
+  padding: 0;
+  margin: 0 0 var(--h5p-theme-spacing-s);
+}
+
+.h5p-drag-text button.h5p-drag-button:before {
+  padding-right: var(--h5p-theme-spacing-xxs);
+}
+
+/* Buttons starting state: */
+.h5p-drag-text .h5p-drag-check-button {
+  display: inline-block;
+}
+.h5p-drag-text .h5p-drag-retry-button {
+  display: none;
+}
+.h5p-drag-text .h5p-drag-show-solution-button {
+  display: none;
+}
+
+/* Tooltip styling */
+.h5p-drag-text .joubel-tip-container {
+  top: calc(var(--h5p-theme-spacing-s)*-1.2);
+  right: calc(var(--h5p-theme-spacing-s)*-0.6);
+  position: absolute;
+  z-index: 4;
+  font-size: var(--h5p-theme-font-size-m);
+  line-height: normal;
+}
+
+/* Feedback icon */
+.h5p-drag-text .h5p-drag-draggable-correct:after {
+  display: inline-grid;
+  align-items: center;
+  font-family: 'h5p-theme';
+  content: "\e903";
+  color: var(--h5p-theme-feedback-correct-main);
+}
+
+.h5p-drag-text .h5p-drag-draggable-wrong:after {
+  display: inline-grid;
+  align-items: center;
+  font-family: 'h5p-theme';
+  content: "\e902";
+  color: var(--h5p-theme-feedback-incorrect-main);
+}
+
+.h5p-drag-text [aria-grabbed]:focus-visible,
+.h5p-drag-text [aria-dropeffect]:focus-visible {
+  outline: 2px ridge var(--h5p-theme-contrast-cta-white);
+  border-radius: 4px;
+  outline-offset: 2px;
+}
+
+.h5p-drag-text [aria-grabbed]:focus-visible:has(.h5p-draggable),
+.h5p-drag-text [aria-dropeffect]:focus-visible:has(.h5p-draggable) {
+  outline: 2px ridge var(--h5p-theme-contrast-cta-white);
+  outline-offset: 5px;
+}
+
+/* Draggable styling */
+.h5p-drag-text .h5p-drag-draggables-container {
+  display: flex;
+  position: relative;
+  padding-top: var(--h5p-theme-spacing-xxs);
+  flex-wrap: wrap;
+}
+
+.h5p-drag-text .h5p-drag-draggables-container.hide {
+  display: none;
+}
+
+/* Show solution container */
+.h5p-drag-text .h5p-drag-show-solution-container {
+  position: relative;
+  display: inline;
+  line-height: var(--h5p-theme-spacing-s);
+  line-break: auto;
+}
+
+.h5p-drag-text .h5p-drag-droppable-words {
+  color: var(--h5p-theme-text-secondary);
+  line-height: var(--h5p-theme-spacing-xl);
+}
+
+.h5p-drag-text .h5p-drag-task {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  border-radius: var(--h5p-theme-border-radius-small);
+}
+
+.h5p-drag-text .h5p-drag-task.h5p-drag-wide-screen {
+  display: flex;
+  gap: var(--h5p-theme-spacing-s);
+}
+
+.h5p-drag-text .h5p-drag-droppable-words-container {
+  height: fit-content;
+  width: auto;
+  padding: 0 var(--h5p-theme-spacing-s);
+  background-color: var(--h5p-theme-alternative-light);
+  color: var(--h5p-theme-text-secondary);
+  border: solid 1px var(--h5p-theme-alternative-base);
+  border-radius: var(--h5p-theme-border-radius-medium);
+  font-weight: 500;
+}
+
+/* Wide Screen css : */
+.h5p-drag-text .h5p-drag-wide-screen .h5p-drag-droppable-words-container {
+  width: 100%;
+}
+
+.h5p-drag-text .h5p-drag-wide-screen .h5p-drag-draggables-container {
+  flex-direction: column;
+  min-width: fit-content;
+  padding-top: 0;
+}
+
+.h5p-drag-text [aria-dropeffect].ui-droppable.ui-droppable-disabled.ui-draggable-disabled {
+  opacity: 1;
+}
+
+/* Use ellipsis for long draggables */
+.h5p-drag-text [aria-grabbed].h5p-drag-dropped.truncate {
+  text-overflow: ellipsis;
+}
+
+.h5p-drag-text .hidden-but-read {
+  position: absolute;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.h5p-drag-text .h5p-question-introduction {
+  outline: none;
+}
+
+/* Show solution answer highlight */
+.h5p-drag-text .h5p-drag-show-solution-container.incorrect {
+  color: var(--h5p-theme-feedback-correct-main);
+  font-weight: bold;
+  border: var(--border-width) dashed var(--h5p-theme-feedback-correct-main);
+  background-color: var(--h5p-theme-feedback-correct-secondary);
+  border-radius: var(--h5p-theme-border-radius-medium);
+  margin-left: var(--h5p-theme-spacing-xxs);
+  padding: calc(var(--h5p-theme-spacing-xxs) - 3px) var(--h5p-theme-spacing-xs);
+  line-height: 1;
+}
+

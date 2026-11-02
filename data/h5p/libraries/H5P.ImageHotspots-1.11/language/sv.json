@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Bakgrundsbild",
+      "description": "Bild som visas i bakgrunden."
+    },
+    {
+      "label": "Alternativ text för bakgrundsbild",
+      "description": "Om webbläsaren inte kan visa bilden så kommer denna text visas istället. Används också av tillgänglighetshjälpmedel."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Uppladdad bild"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "hotspot",
+      "label": "Hotspots",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Hotspot",
+        "fields": [
+          {
+            "label": "Hotspot-position",
+            "description": "Klicka på miniatyrbilden för att placera hotspot"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Täck hela bakgrundsbilden",
+            "description": "När användaren klickar på denna hotspot så kommer popup täcka hela bakgrundsbilden"
+          },
+          {
+            "label": "Rubrik",
+            "description": "Valfri rubrik för popup-fönster. Används av tillgänglighetshjälpmedel."
+          },
+          {
+            "label": "Popup-innehåll",
+            "field": {
+              "label": "Content Item"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Etikett för knappen \"stäng\" som används av tillgänglighetshjälpmedel",
+      "default": "Stäng"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

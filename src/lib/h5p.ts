@@ -1,3 +1,4 @@
+import { tmpdir } from 'node:os';
 import { isAbsolute, join } from 'node:path';
 import {
   H5PAjaxEndpoint,
@@ -36,20 +37,36 @@ declare global {
 }
 
 /**
- * Direktori artefak H5P. Harus datang dari lingkungan dan harus absolut:
- * menyusunnya dari process.cwd() di dalam modul ini membuat penelusuran statis
- * Turbopack menganggap seluruh proyek bisa dibaca, sehingga ribuan berkas ikut
- * terbundel. Pengubahan relatif→absolut dikerjakan di luar bundel, oleh
- * next.config.ts dan scripts/, bukan di sini.
+ * Direktori artefak H5P.
+ *
+ * `H5P_DATA_DIR_ABS` diisi next.config.ts saat pengembangan dan saat build. Di
+ * Vercel, next.config tidak dijalankan ulang pada tiap permintaan, jadi di sana
+ * jalurnya disusun dari direktori kerja fungsi (`/var/task`) — tempat berkas
+ * yang ikut dibawa lewat outputFileTracingIncludes mendarat. Membaca berkas
+ * relatif terhadap process.cwd() memang cara yang dianjurkan Vercel.
+ *
+ * Konsekuensinya: Turbopack memperingatkan "Dynamic filesystem access causes
+ * tracing of the whole project". Itu disengaja dan tidak bisa dihindari tanpa
+ * menebak jalur absolut di dalam fungsi; .vercelignore yang menjaga agar
+ * unggahannya tetap ramping.
  */
 function dirData(): string {
-  const dari = process.env.H5P_DATA_DIR_ABS;
-  if (!dari || !isAbsolute(dari)) {
-    throw new Error(
-      'H5P_DATA_DIR_ABS belum berisi jalur absolut. Jalankan lewat npm (next.config.ts yang mengisinya) atau atur sendiri.',
-    );
-  }
-  return dari;
+  const dari = process.env.H5P_DATA_DIR_ABS ?? process.env.H5P_DATA_DIR ?? './data/h5p';
+  return isAbsolute(dari) ? dari : join(process.cwd(), dari);
+}
+
+/**
+ * Area kerja sementara. Di Vercel hanya /tmp yang bisa ditulis, dan isinya
+ * hilang tiap permintaan — tidak masalah, karena berkas sementara memang hanya
+ * hidup selama satu penelanan paket.
+ */
+function dirTemp(): string {
+  return process.env.VERCEL ? join(tmpdir(), 'h5p-temp') : join(dirData(), 'temp');
+}
+
+/** Apakah artefak H5P hanya bisa dibaca (produksi tanpa penyimpanan objek). */
+export function artefakHanyaBaca(): boolean {
+  return Boolean(process.env.VERCEL);
 }
 
 function buatMesin(): MesinH5P {
@@ -57,7 +74,7 @@ function buatMesin(): MesinH5P {
   const dir = {
     libraries: join(akar, 'libraries'),
     content: join(akar, 'content'),
-    temp: join(akar, 'temp'),
+    temp: dirTemp(),
     hubCache: join(akar, 'hub-cache'),
   };
   // Direktorinya dibuat di luar bundel — lihat next.config.ts dan tests/setup.ts.

@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "배경 이미지",
+      "description": "배경에 나타나는 이미지"
+    },
+    {
+      "label": "배경 이미지에 대한 대체 텍스트",
+      "description": "브라우저가 이미지를 로드할 수 없는 경우 이 텍스트가 대신 표시될 것이다. 보조 기술에도 사용됨."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "이미지 업로드"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "핫스팟",
+      "label": "핫스팟",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "핫스팟",
+        "fields": [
+          {
+            "label": "핫스팟 위치",
+            "description": "썸네일 이미지를 클릭하여 핫스팟을 배치"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "전체 배경 이미지 덮기",
+            "description": "사용자가 핫스팟을 클릭하면 팝업이 전체 배경 이미지를 덮습니다."
+          },
+          {
+            "label": "머릿말",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "팝업 콘텐츠",
+            "field": {
+              "label": "콘텐츠 항목"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "닫기 버튼에 대한 보조기술 라벨",
+      "default": "닫기"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

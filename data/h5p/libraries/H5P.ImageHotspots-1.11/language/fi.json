@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Taustakuva",
+      "description": "Taustakuva hotspoteille."
+    },
+    {
+      "label": "Vaihtoehtoinen teksti taustakuvalle.",
+      "description": "Jos selain ei pysty lataamaan tätä kuvaa tämä teksti näytetään sen sijasta. Myös ruudunlukijat lukevat tämän tiedon."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Lataa oma kuva"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "hotspot",
+      "label": "Hotspotit",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Hotspot",
+        "fields": [
+          {
+            "label": "Hotspotin sijainti",
+            "description": "Klikkaa pienoiskuvaa määrittääksesi hotspot-kuvakkeen sijainti"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Peitä koko taustakuva",
+            "description": "Kun käyttäjä klikkaa hotspot-kuvaketta, avautuva pop up-ikkuna peittää koko taustakuvan."
+          },
+          {
+            "label": "Otsikko",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Ponnahdusikkunan sisältö",
+            "field": {
+              "label": "Sisältövaihtoehto"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Sulje-painikkeen selite avustaville teknologioille",
+      "default": "Sulje"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

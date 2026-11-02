@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Image d'arrière-plan",
+      "description": "Image affichée en arrière-plan."
+    },
+    {
+      "label": "Texte alternatif pour l'image d'arrière-plan",
+      "description": "Si le navigateur ne peut pas charger l'image, ce texte sera affiché à la place. Également utilisé par les technologies d'accessibilité."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Uploaded image"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "Puces cliquables",
+      "label": "Puce cliquable",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Puce cliquable",
+        "fields": [
+          {
+            "label": "Position de la puce cliquable",
+            "description": "Cliquez sur la miniature pour positionner la puce cliquable."
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Recouvrir toute l'image d'arrière-plan",
+            "description": "Quand l'utilisateur cliquera sur la puce cliquable, le popup recouvrira toute l'image d'arrière-plan."
+          },
+          {
+            "label": "Header",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Contenu du popup",
+            "field": {
+              "label": "Type de contenu"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Intitulé du bouton \"Fermer\" pour les technologies d'accessibilité",
+      "default": "Fermer"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

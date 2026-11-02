@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Imaxe de fondo",
+      "description": "Imaxe amosada como fondo."
+    },
+    {
+      "label": "Texto alternativo para a imaxe de fondo",
+      "description": "Amosarase este texto se o navegador non pode amosar a imaxe. Usado tamén polas tecnoloxías de asistencia."
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Imaxe subida"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "punto chave",
+      "label": "Puntos chave",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Punto chave",
+        "fields": [
+          {
+            "label": "Posición do punto chave",
+            "description": "Preme na imaxe en miniatura para colocar o punto chave"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Cubrir toda a imaxe de fondo",
+            "description": "Cando o usuario preme no punto chave, a pantalla emerxente cubrirá toda a imaxe de fondo"
+          },
+          {
+            "label": "Cabeceira",
+            "description": "Cabeceira opcional para a ventá emerxente. Isto é usado polas tecnoloxías de asistencia."
+          },
+          {
+            "label": "Contido da pantalla emerxente",
+            "field": {
+              "label": "Elemento de contido"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Etiqueta do botón pechar para tecnoloxías de asistencia",
+      "default": "Pechar"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}

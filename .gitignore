@@ -2,10 +2,17 @@ node_modules/
 .next/
 out/
 .env.local
-data/
+# Artefak H5P ikut dibawa ke deploy: pustaka tipe konten dan konten itu
+# sendiri dibaca saat menjalankan, dan disk Vercel tidak bisa ditulis.
+# Yang tidak perlu ikut: area kerja sementara dan unduhan gudang.
+data/h5p/temp/
+data/h5p/hub-cache/
+data/h5p-test/
+
+# Dibangkitkan dari zip plugin saat build (lihat skrip build).
+public/h5p-core/
 .superpowers/
 .worktrees/
 *.log
-public/h5p-core/
 
 next-env.d.ts

@@ -1,0 +1,154 @@
+{
+  "semantics": [
+    {
+      "label": "Immagine di sfondo",
+      "description": "Immagine impostata come sfondo"
+    },
+    {
+      "label": "Testo alternativo per l'immagine di sfondo",
+      "description": "Se il browser non riesce a caricarla, al posto dell'immagine sarà mostrato questo testo (usato anche per tecnologie assistive)"
+    },
+    {
+      "label": "Global hotspot Icon",
+      "options": [
+        {
+          "label": "Predefined icon"
+        },
+        {
+          "label": "Immagine caricata"
+        },
+        {
+          "label": "Consecutive numbers"
+        }
+      ]
+    },
+    {
+      "label": "Predefined icon",
+      "description": "Using a predefined icon for the hotspots.",
+      "options": [
+        {
+          "label": "Plus"
+        },
+        {
+          "label": "Minus"
+        },
+        {
+          "label": "Times"
+        },
+        {
+          "label": "Check"
+        },
+        {
+          "label": "Question"
+        },
+        {
+          "label": "Info"
+        },
+        {
+          "label": "Exclamation"
+        }
+      ]
+    },
+    {
+      "label": "Uploaded image",
+      "description": "Use your own image for the hotspots icon.<br />75px by 75px is recommended for your image."
+    },
+    {
+      "label": "Hotspot color",
+      "description": "The color of the hotspots"
+    },
+    {
+      "entity": "hotspot",
+      "label": "Hotspot",
+      "widgets": [
+        {
+          "label": "Default"
+        }
+      ],
+      "field": {
+        "label": "Hotspot",
+        "fields": [
+          {
+            "label": "Posizione dell'hotspot",
+            "description": "Clicca sulla miniatura dell'immagine per posizionare l'hotspot"
+          },
+          {
+            "label": "Custom hotspot icon",
+            "options": [
+              {
+                "label": "Default"
+              },
+              {
+                "label": "Predefined icon"
+              },
+              {
+                "label": "Uploaded image"
+              }
+            ]
+          },
+          {
+            "label": "Predefined icon",
+            "description": "Using a predefined icon for the hotspot.",
+            "options": [
+              {
+                "label": "Plus"
+              },
+              {
+                "label": "Minus"
+              },
+              {
+                "label": "Times"
+              },
+              {
+                "label": "Check"
+              },
+              {
+                "label": "Question"
+              },
+              {
+                "label": "Info"
+              },
+              {
+                "label": "Exclamation"
+              }
+            ]
+          },
+          {
+            "label": "Uploaded image",
+            "description": "Use your own image for the hotspot icon.<br />75px by 75px is recommended for your image."
+          },
+          {
+            "label": "Hotspot color",
+            "description": "The color of the hotspot"
+          },
+          {
+            "label": "Copri l'intera immagine di sfondo",
+            "description": "Quando l'apprendente clicca sull'hotspot il popup ricoprirà l'intera immagine di sfondo"
+          },
+          {
+            "label": "Intestazione",
+            "description": "Optional header for the popup. This is used by assistive technologies."
+          },
+          {
+            "label": "Contenuto del popup",
+            "field": {
+              "label": "Item del contenuto"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Fallback label for hotspots without a header",
+      "default": "Untitled Hotspot"
+    },
+    {
+      "label": "Etichetta del pulsante di chiusura per tecnologie assistive",
+      "default": "Chiudi"
+    },
+    {
+      "label": "Label for assistive technologies denoting that hotspot contains Audio/Video",
+      "default": "Contains Audio/Video"
+    }
+  ]
+}
