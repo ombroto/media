@@ -39,6 +39,7 @@ export async function GET() {
 
   hasil.push(
     await coba('lingkungan', () => ({
+      node: process.version,
       cwd: process.cwd(),
       vercel: process.env.VERCEL ?? null,
       region: process.env.VERCEL_REGION ?? null,
