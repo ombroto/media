@@ -89,7 +89,10 @@ export default async function HalamanPantauSesi({
               ) : (
                 <div className="col-span-2 self-center">
                   <p className="text-sm text-white/60">
-                    Kegiatan ini tidak memberi nilai, jadi tidak ada peringkat.
+                    <strong className="text-white">Tanpa nilai.</strong>{' '}
+                    {konten?.main_library ?? 'Tipe konten ini'} tidak pernah
+                    mengirimkan skor, jadi sesi ini tidak punya peringkat maupun
+                    rata-rata.
                   </p>
                 </div>
               )}
@@ -133,6 +136,17 @@ export default async function HalamanPantauSesi({
               </ul>
             )}
           </div>
+
+          {!berskor ? (
+            <p className="pesan">
+              Daftar di atas hanya mencatat siapa yang sudah membuka kegiatan ini.
+              Tidak ada nilai, waktu pengerjaan, maupun peringkat yang bisa
+              dihitung — tipe kontennya memang tidak mengirimkan skor. Peserta
+              diberi tahu hal ini di halaman sebelum mereka mengisi nama, dan
+              setelah selesai mereka mendapat halaman penutup, bukan papan
+              peringkat kosong.
+            </p>
+          ) : null}
 
           {berskor && ringkas.belum_selesai.length > 0 ? (
             <div className="space-y-3">

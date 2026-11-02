@@ -67,6 +67,18 @@ export default async function HalamanMasukSesi({
           </p>
         </header>
 
+        {konten?.scoring === 'unscored' ? (
+          // Peserta harus tahu sebelum mengisi nama, bukan setelah selesai:
+          // kegiatan ini tidak memberi nilai, jadi tidak ada yang diperingkat.
+          <div className="pesan space-y-1">
+            <p className="font-semibold">Kegiatan ini tanpa nilai</p>
+            <p className="opacity-80">
+              {konten.title} tidak mengirimkan nilai, jadi sesi ini tidak punya
+              papan peringkat. Yang tercatat hanya bahwa Anda sudah membukanya.
+            </p>
+          </div>
+        ) : null}
+
         <div className="kartu p-6">
           <FormNama pin={hasil.sesi.pin} />
         </div>

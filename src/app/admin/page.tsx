@@ -111,13 +111,18 @@ export default async function HalamanDaftarSesi({
                 <li key={s.id} className="kartu flex flex-col gap-3 p-5">
                   <div className="flex items-start justify-between gap-3">
                     <h2 className="text-lg leading-snug">{s.title}</h2>
-                    <span
-                      className={`lencana ${
-                        s.status === 'berjalan' ? 'lencana-berjalan' : 'lencana-selesai'
-                      }`}
-                    >
-                      {s.status}
-                    </span>
+                    <div className="flex shrink-0 flex-wrap justify-end gap-1">
+                      {s.scoring === 'unscored' ? (
+                        <span className="lencana">tanpa nilai</span>
+                      ) : null}
+                      <span
+                        className={`lencana ${
+                          s.status === 'berjalan' ? 'lencana-berjalan' : 'lencana-selesai'
+                        }`}
+                      >
+                        {s.status}
+                      </span>
+                    </div>
                   </div>
 
                   <p className="font-judul text-2xl tracking-[0.2em] text-oranye">
@@ -126,13 +131,14 @@ export default async function HalamanDaftarSesi({
 
                   <p className="text-xs text-abu">
                     {s.judul_konten} · {jendela(s.opens_at, s.closes_at)}
-                    {s.scoring === 'unscored' ? ' · tanpa peringkat' : ''}
                   </p>
 
                   <p className="text-xs text-abu">
                     {s.jumlah_ikut === 0
                       ? 'belum ada peserta'
-                      : `${s.jumlah_ikut} ikut, ${s.jumlah_selesai} selesai`}
+                      : s.scoring === 'unscored'
+                        ? `${s.jumlah_ikut} sudah membuka`
+                        : `${s.jumlah_ikut} ikut, ${s.jumlah_selesai} selesai`}
                   </p>
 
                   <div className="mt-auto flex flex-wrap gap-2 pt-2">
@@ -159,6 +165,17 @@ export default async function HalamanDaftarSesi({
               ))}
             </ul>
           )}
+
+          {daftar.some((s) => s.scoring === 'unscored') ? (
+            <p className="border-t border-garis pt-4 text-xs text-abu">
+              Sesi bertanda <strong>tanpa nilai</strong> memakai tipe konten yang
+              memang tidak pernah mengirimkan skor — seperti Memory Game atau
+              Dialog Cards. Sesi itu tetap bisa dibagikan lewat PIN dan dikerjakan
+              peserta, tapi tidak punya papan peringkat: yang terlihat hanya siapa
+              saja yang sudah membukanya. Pesertanya juga diberi tahu hal ini
+              sebelum mereka mulai.
+            </p>
+          ) : null}
         </div>
       </section>
     </main>

@@ -38,11 +38,19 @@ export default async function HalamanMengerjakan() {
               h5pContentId={peserta.h5p_content_id}
               judul={peserta.content_title}
             />
-            <p className="text-sm text-abu">
-              Kerjakan sampai selesai, lalu tekan <strong>Kirim jawaban</strong> di
-              bawah kontennya. Setelah itu Anda langsung diarahkan ke papan
-              peringkat.
-            </p>
+            {peserta.scoring === 'unscored' ? (
+              <p className="text-sm text-abu">
+                Kegiatan ini tidak memberi nilai, jadi tidak ada papan peringkat.
+                Kalau sudah selesai, tekan <strong>Kirim jawaban</strong> di bawah
+                kontennya untuk menutup kegiatan.
+              </p>
+            ) : (
+              <p className="text-sm text-abu">
+                Kerjakan sampai selesai, lalu tekan <strong>Kirim jawaban</strong> di
+                bawah kontennya. Setelah itu Anda langsung diarahkan ke papan
+                peringkat.
+              </p>
+            )}
           </>
         )}
       </div>
