@@ -11,7 +11,16 @@ export async function GET(req: Request) {
   if (!guru) return Response.json({ error: 'Tidak berwenang.' }, { status: 403 });
 
   const url = new URL(req.url);
-  const { ajax } = getH5P();
+  let ajax;
+  try {
+    ajax = getH5P().ajax;
+  } catch (e) {
+    return Response.json(
+      { error: `Mesin H5P gagal disiapkan: ${e instanceof Error ? e.message : e}` },
+      { status: 500 },
+    );
+  }
+
 
   try {
     const hasil = await ajax.getAjax(

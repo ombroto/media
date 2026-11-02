@@ -137,7 +137,17 @@ export async function GET(
     type: 'local',
   };
 
-  const { player, ajax } = getH5P();
+  let player;
+  let ajax;
+  try {
+    ({ player, ajax } = getH5P());
+  } catch (e) {
+    return new Response(
+      `Mesin H5P gagal disiapkan: ${e instanceof Error ? e.message : e}`,
+      { status: 500, headers: { 'content-type': 'text/plain; charset=utf-8' } },
+    );
+  }
+
   player.setRenderer((model) => halamanPemutar(model, peserta));
 
   try {

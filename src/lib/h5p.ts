@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { isAbsolute, join } from 'node:path';
 import {
@@ -37,22 +38,63 @@ declare global {
 }
 
 /**
- * Direktori artefak H5P.
+ * Mencari direktori artefak H5P.
  *
- * `H5P_DATA_DIR_ABS` diisi next.config.ts saat pengembangan dan saat build. Di
- * Vercel, next.config tidak dijalankan ulang pada tiap permintaan, jadi di sana
- * jalurnya disusun dari direktori kerja fungsi (`/var/task`) — tempat berkas
- * yang ikut dibawa lewat outputFileTracingIncludes mendarat. Membaca berkas
- * relatif terhadap process.cwd() memang cara yang dianjurkan Vercel.
+ * Jalurnya tidak bisa ditebak dari satu sumber saja. Di pengembangan ia relatif
+ * terhadap akar proyek; di Vercel berkas yang ikut dibawa mendarat di direktori
+ * kerja fungsi, yang tidak dijamin sama dengan `process.cwd()`. Karena itu
+ * beberapa kandidat dicoba dan yang pertama benar-benar berisi `libraries`
+ * yang dipakai.
  *
- * Konsekuensinya: Turbopack memperingatkan "Dynamic filesystem access causes
- * tracing of the whole project". Itu disengaja dan tidak bisa dihindari tanpa
- * menebak jalur absolut di dalam fungsi; .vercelignore yang menjaga agar
- * unggahannya tetap ramping.
+ * Kalau tidak satu pun ketemu, lemparkan galat yang menyebutkan apa saja yang
+ * sudah dicoba. Tanpa itu, kegagalannya muncul sebagai 500 berbadan kosong —
+ * persis yang terjadi pada deploy pertama dan mahal sekali untuk dilacak,
+ * karena FileLibraryStorage memanggil mkdirSync di konstruktornya dan disk
+ * Vercel menolaknya dengan EROFS.
  */
+/** Apakah artefak H5P hanya bisa dibaca (produksi tanpa penyimpanan objek). */
+export function artefakHanyaBaca(): boolean {
+  return Boolean(process.env.VERCEL);
+}
+
+let akarTersimpan: string | null = null;
+
 function dirData(): string {
-  const dari = process.env.H5P_DATA_DIR_ABS ?? process.env.H5P_DATA_DIR ?? './data/h5p';
-  return isAbsolute(dari) ? dari : join(process.cwd(), dari);
+  if (akarTersimpan) return akarTersimpan;
+
+  // Setelan eksplisit menang mutlak. Tanpa aturan ini, pengujian yang sengaja
+  // mengosongkan direktorinya akan jatuh ke direktori aplikasi yang asli dan
+  // diam-diam menguji data yang salah.
+  const eksplisit = process.env.H5P_DATA_DIR_ABS ?? process.env.H5P_DATA_DIR;
+  if (eksplisit) {
+    akarTersimpan = isAbsolute(eksplisit) ? eksplisit : join(process.cwd(), eksplisit);
+    return akarTersimpan;
+  }
+
+  // Tanpa setelan, jalurnya ditebak: di produksi berkas yang ikut dibawa
+  // mendarat di direktori kerja fungsi, yang tidak dijamin sama dengan
+  // process.cwd().
+  const dicoba = [join(process.cwd(), 'data', 'h5p'), join('/var/task', 'data', 'h5p')];
+  for (const abs of dicoba) {
+    if (existsSync(join(abs, 'libraries'))) {
+      akarTersimpan = abs;
+      return abs;
+    }
+  }
+
+  // Di disk yang bisa ditulis, direktorinya boleh belum ada — penyimpanan H5P
+  // akan membuatnya sendiri.
+  if (!artefakHanyaBaca()) {
+    akarTersimpan = dicoba[0];
+    return dicoba[0];
+  }
+
+  // Di produksi ini harus berisik: konstruktor penyimpanan H5P memanggil
+  // mkdirSync, dan di disk hanya-baca galatnya muncul sebagai 500 berbadan
+  // kosong yang tidak menyebutkan apa pun.
+  throw new Error(
+    `Direktori pustaka H5P tidak ditemukan. Dicoba: ${dicoba.join(' | ')}. cwd: ${process.cwd()}`,
+  );
 }
 
 /**
@@ -62,11 +104,6 @@ function dirData(): string {
  */
 function dirTemp(): string {
   return process.env.VERCEL ? join(tmpdir(), 'h5p-temp') : join(dirData(), 'temp');
-}
-
-/** Apakah artefak H5P hanya bisa dibaca (produksi tanpa penyimpanan objek). */
-export function artefakHanyaBaca(): boolean {
-  return Boolean(process.env.VERCEL);
 }
 
 function buatMesin(): MesinH5P {

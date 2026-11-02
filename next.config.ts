@@ -33,18 +33,19 @@ const nextConfig: NextConfig = {
    *
    * Pustaka tipe konten (3.341 berkas, 29 MB) dan berkas konten dibaca saat
    * menjalankan, dan disk Vercel di luar bundel tidak bisa ditulis — jadi
-   * keduanya harus ada di sini, bukan dipasang saat berjalan. Aset inti klien
-   * juga ikut, karena berkas di public/ disajikan CDN dan tidak selalu ada di
-   * sistem berkas fungsi, sementara rute kita membacanya dari disk.
+   * keduanya harus ada di sini, bukan dipasang saat berjalan.
    *
-   * Dipasang untuk semua rute ('/*') dengan sengaja: pustaka yang hilang baru
-   * ketahuan sebagai pemutar kosong di produksi, dan itu mahal untuk dilacak.
+   * Kuncinya '/**', bukan '/*': kunci dicocokkan sebagai pola rute, dan '/*'
+   * hanya mengena rute satu segmen — sementara yang membutuhkan artefak ini
+   * justru /h5p/[...path] dan /h5p/view/[contentId] yang bertingkat.
+   *
+   * Aset inti klien tidak ada di sini: rute /h5p/core/* mengalihkannya ke
+   * salinan statis di public/, yang disajikan CDN tanpa melibatkan fungsi.
    */
   outputFileTracingIncludes: {
-    '/*': [
+    '/**': [
       'data/h5p/libraries/**/*',
       'data/h5p/content/**/*',
-      'public/h5p-core/**/*',
     ],
   },
 };

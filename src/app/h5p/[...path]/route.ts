@@ -1,11 +1,8 @@
-import { createReadStream } from 'node:fs';
-import { stat } from 'node:fs/promises';
-import { join, normalize, sep } from 'node:path';
+import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { getH5P } from '@/lib/h5p';
 import { periksaAksesH5P } from '@/lib/h5p-access';
 
-const DIR_INTI = join(process.cwd(), 'public', 'h5p-core');
 
 const TIPE: Record<string, string> = {
   '.js': 'text/javascript; charset=utf-8',
@@ -36,12 +33,6 @@ function tipeDari(nama: string): string {
   return (titik >= 0 ? TIPE[nama.slice(titik).toLowerCase()] : undefined) ?? 'application/octet-stream';
 }
 
-/** Menolak ".." dan jalur absolut sebelum menyentuh berkas apa pun. */
-function jalurAman(dasar: string, relatif: string): string | null {
-  const gabung = normalize(join(dasar, relatif));
-  return gabung.startsWith(dasar + sep) ? gabung : null;
-}
-
 function tolak(status: number, pesan: string): Response {
   return new Response(pesan, {
     status,
@@ -49,22 +40,20 @@ function tolak(status: number, pesan: string): Response {
   });
 }
 
-async function sajikanInti(sisa: string[]): Promise<Response> {
-  const berkas = jalurAman(DIR_INTI, sisa.join('/'));
-  if (!berkas) return tolak(400, 'Jalur berkas tidak sah.');
-
-  const info = await stat(berkas).catch(() => null);
-  if (!info?.isFile()) {
-    return tolak(
-      404,
-      'Aset inti H5P belum disalin. Jalankan: npm run h5p:core',
-    );
-  }
-
-  return new Response(Readable.toWeb(createReadStream(berkas)) as ReadableStream, {
+/**
+ * Aset inti dialihkan ke salinannya di public/, yang disajikan CDN langsung.
+ *
+ * Membacanya dari disk di dalam fungsi pernah gagal di produksi: berkas public/
+ * tidak dijamin ada di sistem berkas fungsi. Mengalihkannya juga lebih cepat
+ * dan membuang 2 MB dari bundel.
+ */
+function alihkanKeInti(sisa: string[]): Response {
+  const jalur = sisa.map((b) => encodeURIComponent(b)).join('/');
+  // Response.redirect() menuntut URL absolut; header Location boleh relatif.
+  return new Response(null, {
+    status: 308,
     headers: {
-      'content-type': tipeDari(berkas),
-      'content-length': String(info.size),
+      location: `/h5p-core/${jalur}`,
       'cache-control': 'public, max-age=31536000, immutable',
     },
   });
@@ -76,11 +65,19 @@ export async function GET(
 ) {
   const { path } = await params;
   const [bagian, ...sisa] = path ?? [];
-  const { ajax } = getH5P();
 
-  // Aset inti: dilayani dari public/h5p-core, tanpa pemeriksaan izin — ia sama
-  // untuk semua orang dan tidak membocorkan isi kuis.
-  if (bagian === 'core') return sajikanInti(sisa);
+  // Aset inti tidak perlu mesin H5P sama sekali.
+  if (bagian === 'core') return alihkanKeInti(sisa);
+
+  let ajax;
+  try {
+    ajax = getH5P().ajax;
+  } catch (e) {
+    // Jangan biarkan ini jadi 500 berbadan kosong: konstruktor penyimpanan
+    // H5P memanggil mkdirSync, dan di disk hanya-baca galatnya tidak terlihat
+    // di mana pun kecuali di sini.
+    return tolak(500, `Mesin H5P gagal disiapkan: ${e instanceof Error ? e.message : e}`);
+  }
 
   // Berkas pustaka: kode tipe konten, sama untuk semua, jadi juga terbuka (§7.3).
   if (bagian === 'libraries') {
