@@ -20,12 +20,12 @@ export default function Beranda() {
           <div className="space-y-5">
             <span className="kerlip">Sesi interaktif</span>
             <h1 className="text-[clamp(2.1rem,6vw,3.4rem)] text-white">
-              Satu PIN, satu nama,
+              Masukkan PIN,
               <br />
-              langsung terlihat peringkatnya
+              kerjakan kontennya,
             </h1>
             <p className="max-w-md text-sm leading-relaxed text-white/70">
-              Masukkan PIN yang dibagikan pengajar Anda, kerjakan kontennya, lalu
+              lalu
               lihat posisi Anda di papan peringkat saat itu juga.
             </p>
           </div>

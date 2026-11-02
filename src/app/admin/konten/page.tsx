@@ -4,6 +4,7 @@ import { penyelenggaraSekarang } from '@/lib/auth-cookie';
 import { daftarKonten } from '@/lib/repo/contents';
 import FormUnggah from './FormUnggah';
 import { aksiTandaiTanpaSkor } from './actions';
+import DialogHapusKonten from './DialogHapusKonten';
 
 export const metadata = { title: 'Pustaka konten — Sesi H5P' };
 
@@ -83,6 +84,12 @@ export default async function HalamanPustakaKonten() {
                           </button>
                         </form>
                       ) : null}
+
+                      <DialogHapusKonten
+                        kontenId={k.id}
+                        judul={k.title}
+                        sesi={k.sesi}
+                      />
                     </div>
                   </li>
                 ))}

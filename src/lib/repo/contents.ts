@@ -1,4 +1,4 @@
-import { query } from '@/lib/db';
+import { pool, query } from '@/lib/db';
 
 export type Scoring = 'scored' | 'unscored' | 'unknown';
 
@@ -69,11 +69,32 @@ export async function simpanKonten(
   return baris;
 }
 
-export async function daftarKonten(
-  ownerId: number,
-): Promise<(Konten & { jumlah_sesi: number })[]> {
-  return query<Konten & { jumlah_sesi: number }>(
-    `select c.*, count(s.id)::int as jumlah_sesi
+/** Sesi yang memakai sebuah konten — dipakai dialog konfirmasi penghapusan. */
+export type SesiRingkas = { id: number; title: string; pin: string; jumlah_ikut: number };
+
+export type KontenDenganSesi = Konten & {
+  jumlah_sesi: number;
+  sesi: SesiRingkas[];
+};
+
+export async function daftarKonten(ownerId: number): Promise<KontenDenganSesi[]> {
+  // Sesi disertakan supaya dialog penghapusan bisa menyebut apa saja yang ikut
+  // hilang, bukan sekadar jumlahnya.
+  return query<KontenDenganSesi>(
+    `select c.*,
+            count(s.id)::int as jumlah_sesi,
+            coalesce(
+              jsonb_agg(
+                jsonb_build_object(
+                  'id', s.id,
+                  'title', s.title,
+                  'pin', s.pin,
+                  'jumlah_ikut', (select count(*)::int from participants p where p.session_id = s.id)
+                )
+                order by s.created_at
+              ) filter (where s.id is not null),
+              '[]'::jsonb
+            ) as sesi
        from contents c
        left join quiz_sessions s on s.content_id = c.id
       where c.owner_id = $1
@@ -105,4 +126,50 @@ export async function tandaiScoring(
     `update contents set scoring = 'unscored' where id = $1 and scoring <> 'scored'`,
     [contentId],
   );
+}
+
+export type HasilHapusKonten = {
+  sesiTerhapus: number;
+  pesertaTerhapus: number;
+};
+
+/**
+ * Menghapus sebuah konten beserta SELURUH sesi yang memakainya.
+ *
+ * Batasan asing sesi→konten sengaja tidak memakai cascade: menghapus satu sesi
+ * tidak boleh menyentuh kontennya (§7.5). Arah sebaliknya dikerjakan di sini,
+ * eksplisit dan dalam satu transaksi, supaya tidak ada keadaan setengah jadi —
+ * peserta dan pernyataan xAPI-nya ikut terbawa lewat cascade dari sesi.
+ */
+export async function hapusKonten(contentId: number): Promise<HasilHapusKonten> {
+  const klien = await pool.connect();
+
+  try {
+    await klien.query('begin');
+
+    const peserta = await klien.query<{ n: number }>(
+      `select count(*)::int as n
+         from participants p
+         join quiz_sessions s on s.id = p.session_id
+        where s.content_id = $1`,
+      [contentId],
+    );
+
+    const sesi = await klien.query('delete from quiz_sessions where content_id = $1', [
+      contentId,
+    ]);
+    await klien.query('delete from contents where id = $1', [contentId]);
+
+    await klien.query('commit');
+
+    return {
+      sesiTerhapus: sesi.rowCount ?? 0,
+      pesertaTerhapus: peserta.rows[0]?.n ?? 0,
+    };
+  } catch (e) {
+    await klien.query('rollback').catch(() => {});
+    throw e;
+  } finally {
+    klien.release();
+  }
 }
