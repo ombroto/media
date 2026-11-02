@@ -16,3 +16,4 @@ public/h5p-core/
 *.log
 
 next-env.d.ts
+tsconfig.tsbuildinfo
