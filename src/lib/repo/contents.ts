@@ -16,9 +16,14 @@ export type Konten = {
 /**
  * Tipe konten yang memang tidak pernah mengirim skor. Sesi dari konten seperti
  * ini tetap boleh dibuat, tapi tanpa papan peringkat (§5.5).
+ *
+ * Daftar ini hanya berisi tipe yang sudah diperiksa isinya — tidak punya
+ * getScore/getMaxScore/getXAPIData maupun setScoredResult. H5P.MemoryGame
+ * sempat ada di sini dan itu keliru: ia mengimplementasikan ketiganya.
+ * Kalau ragu, biarkan 'unknown'; penyelenggara bisa menandainya sendiri dari
+ * halaman pustaka konten.
  */
 const TAK_BERSKOR = new Set([
-  'H5P.MemoryGame',
   'H5P.Dialogcards',
   'H5P.DialogCards',
   'H5P.AdvancedText',

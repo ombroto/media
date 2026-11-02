@@ -192,7 +192,7 @@ test('pernyataan pertama yang memenuhi syarat menandai kontennya scored', async 
 });
 
 test('konten yang sudah ditandai unscored tidak ikut berubah kalau pernyataannya tak berskor', async () => {
-  const { token, konten } = await siapkan({ mainLibrary: 'H5P.MemoryGame' });
+  const { token, konten } = await siapkan({ mainLibrary: 'H5P.Dialogcards' });
   expect(konten.scoring).toBe('unscored');
 
   await POST(permintaan(token, { statement: statement({ anak: true }) }));

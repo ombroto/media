@@ -68,10 +68,18 @@ test('daftarKonten menyertakan jumlah sesi yang memakainya', async () => {
   expect(baris.jumlah_sesi).toBe(2);
 });
 
-test('konten H5P.MemoryGame ditandai unscored saat disimpan', async () => {
+test('konten H5P.MemoryGame TIDAK ditandai unscored — ia memberi nilai', async () => {
+  // Memory Game mengimplementasikan getScore/getMaxScore/getXAPIData; ia
+  // sempat salah masuk daftar "tidak pernah berskor".
   const guru = await buatGuru();
   const k = await simpanKonten(guru, konten('H5P.MemoryGame', 'Memory Game'));
-  expect(k.scoring).toBe('unscored');
+  expect(k.scoring).toBe('unknown');
+});
+
+test('konten H5P.ImagePair ditandai unknown — nilainya datang lewat event xAPI', async () => {
+  const guru = await buatGuru();
+  const k = await simpanKonten(guru, konten('H5P.ImagePair', 'Image pairing'));
+  expect(k.scoring).toBe('unknown');
 });
 
 test('konten H5P.Dialogcards ditandai unscored saat disimpan', async () => {
