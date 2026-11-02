@@ -1,20 +1,26 @@
 # Penelusuran Turbopack menarik seluruh berkas proyek (lihat src/lib/h5p.ts),
 # jadi yang tidak dibutuhkan saat berjalan dikeluarkan di sini supaya bundel
 # fungsinya tetap jauh di bawah batas 250 MB.
+#
+# SETIAP pola WAJIB diawali garis miring. Tanpa itu, polanya mengikuti aturan
+# .gitignore dan cocok dengan direktori bernama sama DI MANA PUN. Pola `konten`
+# pernah menghapus src/app/admin/konten/ dan src/app/api/konten/ dari
+# deployment — halaman pustaka konten dan rute unggahnya lenyap begitu saja,
+# dan build tetap lulus tanpa keluhan.
 
 # Unduhan gudang H5P: hanya dipakai saat memasang pustaka, dan pemasangan
 # pustaka tidak terjadi di produksi.
-data/h5p/hub-cache
-data/h5p-test
+/data/h5p/hub-cache
+/data/h5p-test
 
 # Berkas contoh dan bahan uji.
-konten
-tests
+/konten
+/tests
 
 # Dokumen dan catatan kerja.
-docs
-.superpowers
-AGENTS.md
+/docs
+/.superpowers
+/AGENTS.md
 
 # Catatan: mod_hvp_2026090101.zip TIDAK dikeluarkan — skrip build membongkarnya
 # untuk menghasilkan aset inti klien H5P.
