@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import BerbagiSesi from '@/components/BerbagiSesi';
 import PapanPeringkat from '@/components/PapanPeringkat';
 import { penyelenggaraSekarang } from '@/lib/auth-cookie';
 import { urutkanPeringkat } from '@/lib/ranking';
@@ -56,7 +57,6 @@ export default async function HalamanPantauSesi({
               <p className="font-judul text-4xl tracking-[0.25em] text-oranye">
                 {sesi.pin}
               </p>
-              <p className="mt-1 text-xs text-white/50">/j/{sesi.pin}</p>
             </div>
 
             <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -98,6 +98,8 @@ export default async function HalamanPantauSesi({
               )}
             </dl>
           </div>
+
+          <BerbagiSesi sesiId={sesi.id} pin={sesi.pin} judul={sesi.title} />
 
           <p className="text-sm text-white/50">
             {status} · dibuka {waktuPanjang(sesi.opens_at)} · ditutup{' '}

@@ -1,3 +1,4 @@
+import { namaBerkasAman } from '@/lib/nama-berkas';
 import type { BarisTerperingkat } from '@/lib/ranking';
 
 const KEPALA = ['peringkat', 'nama', 'skor', 'maksimum', 'durasi_detik', 'selesai_pada'];
@@ -59,12 +60,6 @@ export function buatCsvHasil(baris: BarisTerperingkat[]): string {
   return `﻿${garis.join('\r\n')}\r\n`;
 }
 
-/** Nama berkas yang aman di Windows. */
 export function namaBerkasCsv(judulSesi: string, pin: string): string {
-  const aman = judulSesi
-    .replace(/[\\/:*?"<>|]/g, '')
-    .trim()
-    .slice(0, 60)
-    .replace(/\s+/g, '-');
-  return `hasil-${aman || 'sesi'}-${pin}.csv`;
+  return `hasil-${namaBerkasAman(judulSesi, 60, 'sesi')}-${pin}.csv`;
 }
