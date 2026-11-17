@@ -67,7 +67,15 @@ function dirData(): string {
   // diam-diam menguji data yang salah.
   const eksplisit = process.env.H5P_DATA_DIR_ABS ?? process.env.H5P_DATA_DIR;
   if (eksplisit) {
-    akarTersimpan = isAbsolute(eksplisit) ? eksplisit : join(process.cwd(), eksplisit);
+    // turbopackIgnore: jalur ini memang dinamis — isinya datang dari env, bukan
+    // dari kode. Tanpa penanda ini Turbopack menganggapnya pembacaan berkas
+    // yang tak terduga dan menjejaki SELURUH proyek ke dalam bundel fungsi
+    // (src/ dan public/ ikut terbawa). Artefak H5P tetap ikut dibawa lewat
+    // outputFileTracingIncludes di next.config.ts, yang menyebut jalurnya
+    // secara tersurat.
+    akarTersimpan = isAbsolute(eksplisit)
+      ? eksplisit
+      : join(/* turbopackIgnore: true */ process.cwd(), eksplisit);
     return akarTersimpan;
   }
 
