@@ -48,6 +48,10 @@ const nextConfig: NextConfig = {
       'data/h5p/content/**/*',
     ],
   },
+
+  experimental: {
+    agentUpgrade: 'security',
+  },
 };
 
 export default nextConfig;
