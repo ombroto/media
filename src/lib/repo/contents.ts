@@ -13,36 +13,12 @@ export type Konten = {
   created_at: Date;
 };
 
-/**
- * Tipe konten yang memang tidak pernah mengirim skor. Sesi dari konten seperti
- * ini tetap boleh dibuat, tapi tanpa papan peringkat (§5.5).
- *
- * Daftar ini hanya berisi tipe yang sudah diperiksa isinya — tidak punya
- * getScore/getMaxScore/getXAPIData maupun setScoredResult. H5P.MemoryGame
- * sempat ada di sini dan itu keliru: ia mengimplementasikan ketiganya.
- * Kalau ragu, biarkan 'unknown'; penyelenggara bisa menandainya sendiri dari
- * halaman pustaka konten.
- */
-const TAK_BERSKOR = new Set([
-  'H5P.Dialogcards',
-  'H5P.DialogCards',
-  'H5P.AdvancedText',
-  'H5P.Image',
-  'H5P.Audio',
-  'H5P.Video',
-  'H5P.Collage',
-  'H5P.Timeline',
-  'H5P.Accordion',
-  'H5P.Table',
-  'H5P.IFrameEmbed',
-  'H5P.ImageHotspots',
-  'H5P.Link',
-  'H5P.Column',
-]);
+// Daftar tipe tak berskor dipegang modul JavaScript biasa, supaya skrip yang
+// dijalankan Node langsung (scripts/daftar-konten.mjs) memakai aturan yang
+// sama persis dengan aplikasi.
+import { scoringAwal } from '@/lib/scoring-awal.mjs';
 
-export function scoringAwal(mainLibrary: string): Scoring {
-  return TAK_BERSKOR.has(mainLibrary) ? 'unscored' : 'unknown';
-}
+export { scoringAwal };
 
 export async function simpanKonten(
   ownerId: number,
