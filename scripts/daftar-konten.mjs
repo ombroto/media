@@ -116,7 +116,19 @@ async function utama() {
       const tanda = sudah.has(k.h5pContentId) ? 'terdaftar' : 'BELUM    ';
       console.log(`  ${tanda}  ${k.h5pContentId}  ${k.mainLibrary.padEnd(32)} ${k.title}`);
     }
-    console.log('');
+    // Arah sebaliknya, dan sama merepotkannya: baris yang berkasnya tidak ada.
+    // Konten seperti ini tampil di halaman pustaka tapi gagal saat dibuka,
+    // karena mesin H5P tidak menemukan artefaknya. Terjadi kalau folder
+    // kontennya dihapus di komputer sendiri — atau tidak pernah ikut di-commit
+    // — sementara barisnya tetap hidup di basis data.
+    const diDisk = new Set(disk.map((k) => k.h5pContentId));
+    const yatim = [...sudah.entries()].filter(([id]) => !diDisk.has(id));
+
+    if (yatim.length > 0) {
+      console.log('Baris yang berkasnya TIDAK ADA di disk — akan gagal saat dibuka:');
+      for (const [id, judul] of yatim) console.log(`  hilang     ${id}  ${judul}`);
+      console.log('');
+    }
 
     if (belum.length === 0) {
       console.log('Tidak ada yang perlu didaftarkan.');
